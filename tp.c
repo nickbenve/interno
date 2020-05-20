@@ -54,7 +54,7 @@ int main()
         estado=0;
         insertar(&tope,'$');
         printf("Ingrese la expresion que desea averiguar si es valida o invalida\n");
-        scanf(" %s",&expresion);   
+        scanf(" %s",expresion);   
         while(expresion[recExpr]!='\0' && estado!=3) {
             if(expresion[recExpr]!=32) // distinto del espacio
             {
