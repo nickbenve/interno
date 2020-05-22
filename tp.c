@@ -18,28 +18,30 @@ typedef Pila * PilaPtr; // Puntero para acceder a la pila
 //defimos funciones
 int selecColumna (char); //Selecciona la columna dependiendo del caracter leido de la expresión
 void insertar(PilaPtr *tope, char dato); //mandas puntero y lo q queres agregar
-char eliminar(PilaPtr *tope);//elimina ultimo nodo
+char eliminar(PilaPtr *tope);//elimina ultimo nodo y devuelve su dato
 int cimaPila(PilaPtr *tope); //ya devuelve 0=$ o 1=R para saber a cual de las dos matrices entrar
 
 //definimos datos globales
 datoTT auxCopiaDatosMatriz;
 
-char caractSalida;
-char expresion [50];
+char caractSalida; //char de condicion de salida
+char expresion [50]; //almacena la expresion 
 
 int recExpr;//es i para recorrer la palabra
 int caracter;//a que columna corresponde(en relacion al caracter leido de la expresión)
 int estado;
-int cima;//cima de la pila
+int cima;//cima de la pila (1 si hay una r y 0 si hay un $)
 char elementoSuperior; //variable donde se guarda la cima
 
+//La matriz se rellena columna por columna primero delante y luego atras
+//ejemplo:{{(0,0,0),(0,0,1)},{(0,1,0),(0,1,1)},{(0,2,0),(0,2,1)}... y como es un struck se le incertan los datos en vez de () con {}
 datoTT tt[6][4][2]={
-     {{{3,"$"},{3,"R"}},{{1,"$"},{1,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},
-     {{{1,"$"},{1,"R"}},{{1,"$"},{1,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},
-     {{{3,"$"},{3,"R"}},{{0,"$"},{0,"R"}},{{0,"$"},{0,"R"}},{{3,"$"},{3,"R"}}},
-     {{{0,"R$"},{0,"RR"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},
-     {{{3,"$"},{3,"R"}},{{3,"$"},{2,"Ɛ"}},{{3,"$"},{2,"Ɛ"}},{{3,"$"},{3,"R"}}},
-     {{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},
+     {{{3,"$"},{3,"R"}},{{1,"$"},{1,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},    //columna1
+     {{{1,"$"},{1,"R"}},{{1,"$"},{1,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},    //columna2
+     {{{3,"$"},{3,"R"}},{{0,"$"},{0,"R"}},{{0,"$"},{0,"R"}},{{3,"$"},{3,"R"}}},    //columna3
+     {{{0,"R$"},{0,"RR"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},  //columna4
+     {{{3,"$"},{3,"R"}},{{3,"$"},{2,"Ɛ"}},{{3,"$"},{2,"Ɛ"}},{{3,"$"},{3,"R"}}},    //columna5
+     {{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},    //columna6
      
 };
 
@@ -49,58 +51,43 @@ int main()
 {
     
     do{
-        PilaPtr tope=NULL;
+        PilaPtr tope=NULL; 
         recExpr=0;
         estado=0;
-        insertar(&tope,'$');
+        insertar(&tope,'$'); //elemento base de la pila
         printf("Ingrese la expresion que desea averiguar si es valida o invalida\n");
         scanf(" %s",expresion);   
         while(expresion[recExpr]!='\0' && estado!=3) {
-            if(expresion[recExpr]!=32) // distinto del espacio
-            {
+            if(expresion[recExpr]!=32){ // 32 representa espacio en ascii 
              caracter=selecColumna(expresion[recExpr]); //devuelve la columna en la entra el caracter en al matriz
-             cima=cimaPila(&tope);
+             cima=cimaPila(&tope);//averigua si se debe analizar en matriz delantera o trasera ( , ,0) o ( , ,1)
              auxCopiaDatosMatriz=tt[caracter][estado][cima];
              estado=auxCopiaDatosMatriz.estadoSig;
             
-             elementoSuperior=eliminar(&tope);     //Pop
-             insertar(&tope,elementoSuperior);     //Push
+             elementoSuperior=eliminar(&tope);     //Pop obligatorio
+             insertar(&tope,elementoSuperior);     //Push obligatorio
              
-            if((strcmp(auxCopiaDatosMatriz.elemento,"RR")==0) ||(strcmp(auxCopiaDatosMatriz.elemento,"R$")==0)){
+            //strcmp esta definido en  #include <string.h> y es capaz de comparar cadenas, dando 0 si son iguales   
+            if((strcmp(auxCopiaDatosMatriz.elemento,"RR")==0) || (strcmp(auxCopiaDatosMatriz.elemento,"R$")==0)){
                  insertar(&tope,'R');
             }
             if(strcmp(auxCopiaDatosMatriz.elemento,"Ɛ")==0){
                 char inservible=eliminar(&tope); 
             }
-            
-            
-            
-            
-             //if(auxCopiaDatosMatriz.elemento=="RR"||auxCopiaDatosMatriz.elemento=="R$"){
-             //  insertar(&tope,'R');
-             //}
-             //if(auxCopiaDatosMatriz.elemento=="Ɛ"){
-             //   char inservible=eliminar(&tope); 
-             //}   
-             
-             
             }          
         recExpr++;
         }   
-        //(strcmp(res, "No") != 0)
-        if(estado==3||tope->dato!='$'){
+        
+        if(estado==3||tope->dato!='$'){  //condiciones  para que una expresion sea invalida
             printf("La expresion %s",expresion);
-            printf("es invalida \n");
+            printf(" es invalida \n");
         }else{
             printf("La expresion %s",expresion);
             printf(" es valida \n");
         }
-        
-        //dice si es valido o no
-        //ciclo q elimine toda la cola
-        
+   
         printf("Ingrese el caracter Y/y si desea ingresar otra expresion, sino ingrese N/n\n");
-        scanf(" %s",&caractSalida);    
+        scanf(" %s",&caractSalida);    //salida del programa
     }while(caractSalida=='y'||caractSalida=='Y');
     return 0;
 }    
