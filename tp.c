@@ -46,18 +46,18 @@ datoTT tt[6][4][2]={
 };
 
 
-
 int main()
 {
-    
+        char expresion [50];
     do{
         PilaPtr tope=NULL; 
         recExpr=0;
         estado=0;
         insertar(&tope,'$'); //elemento base de la pila
+        
         printf("Ingrese la expresion que desea averiguar si es valida o invalida\n");
-        scanf(" %s",expresion);    
-         while(expresion[recExpr]!='\0' && estado!=3) {
+        fgets(expresion,49, stdin);    
+         while(expresion[recExpr]!='\n' && estado!=3) {
             if(expresion[recExpr]!=32){ // 32 representa espacio en ascii 
              caracter=selecColumna(expresion[recExpr]); //devuelve la columna en la entra el caracter en al matriz
              cima=cimaPila(&tope);//averigua si se debe analizar en matriz delantera o trasera ( , ,0) o ( , ,1)
@@ -80,18 +80,19 @@ int main()
         
         if(estado==3||tope->dato!='$'){  //condiciones  para que una expresion sea invalida
             printf("La expresion %s",expresion);
-            printf(" es invalida \n");
+            printf("es invalida \n");
         }else{
             printf("La expresion %s",expresion);
-            printf(" es valida \n");
+            printf("es valida \n");
         }
-   
+        char c;
+        
         printf("Ingrese el caracter Y/y si desea ingresar otra expresion, sino ingrese N/n\n");
         scanf(" %s",&caractSalida);    //salida del programa
+        while ((c = fgetc(stdin)) != '\n' && c != EOF);
     }while(caractSalida=='y'||caractSalida=='Y');
     return 0;
-}    
-    
+}
 
 int selecColumna (char caracter) 
  {
