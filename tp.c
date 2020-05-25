@@ -78,7 +78,7 @@ int main()
         recExpr++;
         }   
         
-        if(estado==3||tope->dato!='$'){  //condiciones  para que una expresion sea invalida
+        if(estado==3||tope->dato!='$'||estado==0){  //condiciones  para que una expresion sea invalida
             printf("La expresion %s",expresion);
             printf("es invalida \n");
         }else{
