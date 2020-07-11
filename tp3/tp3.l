@@ -9,8 +9,8 @@ struct nodoIdentificadores {
     int cantidadIdentificadores;
     struct nodoIdentificadores *sig;
 };
-struct nodoIdentificadores *raizIdentificadores=NULL;
-struct nodoIdentificadores *fondoIdentificadores=NULL;
+//struct nodoIdentificadores *raizIdentificadores=NULL;
+//struct nodoIdentificadores *fondoIdentificadores=NULL;
 
 //LITERAL CADENA
 struct nodoLiteralCadena {
@@ -18,8 +18,8 @@ struct nodoLiteralCadena {
     int longitud;
     struct nodoLiteralCadena *sig;
 };
-struct nodoLiteralCadena *raizLiteralCadena=NULL;
-struct nodoLiteralCadena *fondoLiteralCadena=NULL;
+//struct nodoLiteralCadena *raizLiteralCadena=NULL;
+//struct nodoLiteralCadena *fondoLiteralCadena=NULL;
 
 //PALABRAS RESERVADAS 
 
@@ -28,8 +28,8 @@ struct nodoPalabrasReservadas {
     char tipo[19]; //ACA CAPAZ PODEMOS HACER DINAMICO TAMBIEN
     struct nodoPalabrasReservadas *sig;
 };
-struct nodoPalabrasReservadas *raizPalabrasReservadas=NULL;
-struct nodoPalabrasReservadas *fondoPalabrasReservadas=NULL;
+//struct nodoPalabrasReservadas *raizPalabrasReservadas=NULL;
+//struct nodoPalabrasReservadas *fondoPalabrasReservadas=NULL;
 
 
 
@@ -38,24 +38,24 @@ struct nodoConstanteOctal {
     int octal;
     struct nodoConstanteOctal *sig;
 };
-struct nodoConstanteOctal *raizConstanteOctal=NULL;
-struct nodoConstanteOctal *fondoConstanteOctal=NULL;
+//struct nodoConstanteOctal *raizConstanteOctal=NULL;
+//struct nodoConstanteOctal *fondoConstanteOctal=NULL;
 
 struct nodoConstanteHexa {
     char *datoEnHexa;
     int hexa; //POSIBLE CONVERSION
     struct nodoConstanteHexa *sig;
 };
-struct nodoConstanteHexa *raizConstanteHexa=NULL;
-struct nodoConstanteHexa *fondoConstanteHexa=NULL;
+//struct nodoConstanteHexa *raizConstanteHexa=NULL;
+//struct nodoConstanteHexa *fondoConstanteHexa=NULL;
 
 
 struct nodoConstanteDecimal {
     int decimal ;
     struct nodoConstanteDecimal *sig;
 };
-struct nodoConstanteDecimal *raizConstanteDecimal=NULL;
-struct nodoConstanteDecimal *fondoConstanteDecimal=NULL;
+//struct nodoConstanteDecimal *raizConstanteDecimal=NULL;
+//struct nodoConstanteDecimal *fondoConstanteDecimal=NULL;
 
 
 struct nodoConstanteReal {
@@ -63,8 +63,8 @@ struct nodoConstanteReal {
     int parteEntera ;
     struct nodoConstanteReal *sig;
 };
-struct nodoConstanteReal *raizConstanteReal=NULL;
-struct nodoConstanteReal *fondoConstanteReal=NULL;
+//struct nodoConstanteReal *raizConstanteReal=NULL;
+//struct nodoConstanteReal *fondoConstanteReal=NULL;
 
 struct nodoConstanteCaracter {
     char caracter;
@@ -79,19 +79,18 @@ struct nodoOperOCaractPunt {
     char caracter;
     struct nodoOperOCaractPunt *sig;
 };
-struct nodoOperOCaractPunt *raizOperOCaractPunt=NULL;
-struct nodoOperOCaractPunt *fondoOperOCaractPunt=NULL;
+//struct nodoOperOCaractPunt *raizOperOCaractPunt=NULL;
+//struct nodoOperOCaractPunt *fondoOperOCaractPunt=NULL;
 
-//COMENTARIOS --- HASTA ACA SON CATE LEXICAS
-
+//COMENTARIOS 
 
 struct nodoComentario {
     char *comentario;
     char tipo[10]; //ACA PODEMOS VER TAMBIEN DINAMICO
     struct nodoComentario *sig;
 };
-struct nodoComentario *raizComentarios=NULL;
-struct nodoComentario *fondoComentarios=NULL;
+//struct nodoComentario *raizComentarios=NULL;
+//struct nodoComentario *fondoComentarios=NULL;
 
 
 struct nodoNoReconocidos {
@@ -99,24 +98,48 @@ struct nodoNoReconocidos {
     int linea; 
     struct nodoNoReconocidos *sig;
 };
-struct nodoNoReconocidos *raizNoReconocidos=NULL;
-struct nodoNoReconocidos *fondoNoReconocidos=NULL;
+//struct nodoNoReconocidos *raizNoReconocidos=NULL;
+//struct nodoNoReconocidos *fondoNoReconocidos=NULL;
 
 // STRUCK CON TODOS LOS PUNTEROS (YO HARIA ASI)
 
-struct categoriasLexicas{
+struct categorias{
+    struct nodoIdentificadores *raizIdentificadores=NULL;
+    struct nodoIdentificadores *fondoIdentificadores=NULL;
 
+    struct nodoLiteralCadena *raizLiteralCadena=NULL;
+    struct nodoLiteralCadena *fondoLiteralCadena=NULL;
 
+    struct nodoPalabrasReservadas *raizPalabrasReservadas=NULL;
+    struct nodoPalabrasReservadas *fondoPalabrasReservadas=NULL;
 
-}
+    struct nodoConstanteOctal *raizConstanteOctal=NULL;
+    struct nodoConstanteOctal *fondoConstanteOctal=NULL;
+    struct nodoConstanteHexa *raizConstanteHexa=NULL;
+    struct nodoConstanteHexa *fondoConstanteHexa=NULL;
+    struct nodoConstanteDecimal *raizConstanteDecimal=NULL;
+    struct nodoConstanteDecimal *fondoConstanteDecimal=NULL;
+    struct nodoConstanteReal *raizConstanteReal=NULL;
+    struct nodoConstanteReal *fondoConstanteReal=NULL;
+    struct nodoConstanteCaracter *raizConstanteCaracter=NULL;
+    struct nodoConstanteCaracter *fondoConstanteCaracter=NULL;
 
+    struct nodoOperOCaractPunt *raizOperOCaractPunt=NULL;
+    struct nodoOperOCaractPunt *fondoOperOCaractPunt=NULL;
+
+    struct nodoComentario *raizComentarios=NULL;
+    struct nodoComentario *fondoComentarios=NULL;
+
+    struct nodoNoReconocidos *raizNoReconocidos=NULL;
+    struct nodoNoReconocidos *fondoNoReconocidos=NULL;
+};
 
 
 
 
 
 %}
-  //REGLAS   
+  //REGLAS  ta medio raro nose porq no pone colorcitos   
 %% 
 [_a-zA-Z][_0-9a-zA-Z]* {ACCION;} //DENTIFICADORES
 
