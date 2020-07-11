@@ -103,7 +103,7 @@ struct nodoNoReconocidos {
 
 // STRUCK CON TODOS LOS PUNTEROS (YO HARIA ASI)
 
-struct categorias{
+typedef struct{
     struct nodoIdentificadores *raizIdentificadores;
     struct nodoIdentificadores *fondoIdentificadores;
 
@@ -132,11 +132,11 @@ struct categorias{
 
     struct nodoNoReconocidos *raizNoReconocidos;
     struct nodoNoReconocidos *fondoNoReconocidos;
-};
+}EstructuraDePunteros;
 
-
-
-
+inicializarCategorias(struct EstructuraDePunteros *categorias){
+  categorias->raizIdentificadores=NULL; ..
+}
 
 %}
   //REGLAS  ta medio raro nose porq no pone colorcitos   
@@ -162,7 +162,10 @@ faltan varios hay q ver y como armar la er
 
 %%
      //PROGRAMA EN C
-int main(void) { /
+int main(void) { 
+ EstructuraDePunteros categorias;
+ inicializarCategorias(&categorias);
+
  yylex();
  printf("Se reconocieron:\n");
  printf("%d Numeros y\n", nros);
