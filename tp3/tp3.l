@@ -104,34 +104,34 @@ struct nodoNoReconocidos {
 // STRUCK CON TODOS LOS PUNTEROS (YO HARIA ASI)
 
 struct categorias{
-    struct nodoIdentificadores *raizIdentificadores=NULL;
-    struct nodoIdentificadores *fondoIdentificadores=NULL;
+    struct nodoIdentificadores *raizIdentificadores;
+    struct nodoIdentificadores *fondoIdentificadores;
 
-    struct nodoLiteralCadena *raizLiteralCadena=NULL;
-    struct nodoLiteralCadena *fondoLiteralCadena=NULL;
+    struct nodoLiteralCadena *raizLiteralCadena;
+    struct nodoLiteralCadena *fondoLiteralCadena;
 
-    struct nodoPalabrasReservadas *raizPalabrasReservadas=NULL;
-    struct nodoPalabrasReservadas *fondoPalabrasReservadas=NULL;
+    struct nodoPalabrasReservadas *raizPalabrasReservadas;
+    struct nodoPalabrasReservadas *fondoPalabrasReservadas;
 
-    struct nodoConstanteOctal *raizConstanteOctal=NULL;
-    struct nodoConstanteOctal *fondoConstanteOctal=NULL;
-    struct nodoConstanteHexa *raizConstanteHexa=NULL;
-    struct nodoConstanteHexa *fondoConstanteHexa=NULL;
-    struct nodoConstanteDecimal *raizConstanteDecimal=NULL;
-    struct nodoConstanteDecimal *fondoConstanteDecimal=NULL;
-    struct nodoConstanteReal *raizConstanteReal=NULL;
-    struct nodoConstanteReal *fondoConstanteReal=NULL;
-    struct nodoConstanteCaracter *raizConstanteCaracter=NULL;
-    struct nodoConstanteCaracter *fondoConstanteCaracter=NULL;
+    struct nodoConstanteOctal *raizConstanteOctal;
+    struct nodoConstanteOctal *fondoConstanteOctal;
+    struct nodoConstanteHexa *raizConstanteHexa;
+    struct nodoConstanteHexa *fondoConstanteHexa;
+    struct nodoConstanteDecimal *raizConstanteDecimal;
+    struct nodoConstanteDecimal *fondoConstanteDecimal;
+    struct nodoConstanteReal *raizConstanteReal;
+    struct nodoConstanteReal *fondoConstanteReal;
+    struct nodoConstanteCaracter *raizConstanteCaracter;
+    struct nodoConstanteCaracter *fondoConstanteCaracter;
 
-    struct nodoOperOCaractPunt *raizOperOCaractPunt=NULL;
-    struct nodoOperOCaractPunt *fondoOperOCaractPunt=NULL;
+    struct nodoOperOCaractPunt *raizOperOCaractPunt;
+    struct nodoOperOCaractPunt *fondoOperOCaractPunt;
 
-    struct nodoComentario *raizComentarios=NULL;
-    struct nodoComentario *fondoComentarios=NULL;
+    struct nodoComentario *raizComentarios;
+    struct nodoComentario *fondoComentarios;
 
-    struct nodoNoReconocidos *raizNoReconocidos=NULL;
-    struct nodoNoReconocidos *fondoNoReconocidos=NULL;
+    struct nodoNoReconocidos *raizNoReconocidos;
+    struct nodoNoReconocidos *fondoNoReconocidos;
 };
 
 
