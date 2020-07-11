@@ -3,13 +3,114 @@
 /* Reconoce números enteros y palabras alfabéticas; además,
  cuenta las ocurrencias de ambos */
 #include <stdio.h>
+//IDENTIFICADORES
+struct nodoIdentificadores {
+    char *identificador;
+    int cantidadIdentificadores;
+    struct nodoIdentificadores *sig;
+};
+struct nodoIdentificadores *raizIdentificadores=NULL;
+struct nodoIdentificadores *fondoIdentificadores=NULL;
+
+//LITERAL CADENA
+struct nodoLiteralCadena {
+    char *literalCadena;
+    int longitud;
+    struct nodoLiteralCadena *sig;
+};
+struct nodoLiteralCadena *raizLiteralCadena=NULL;
+struct nodoLiteralCadena *fondoLiteralCadena=NULL;
+
+//PALABRAS RESERVADAS 
+
+struct nodoPalabrasReservadas {
+    char *palabraReservada;
+    char tipo[19]; //ACA CAPAZ PODEMOS HACER DINAMICO TAMBIEN
+    struct nodoPalabrasReservadas *sig;
+};
+struct nodoPalabrasReservadas *raizPalabrasReservadas=NULL;
+struct nodoPalabrasReservadas *fondoPalabrasReservadas=NULL;
 
 
 
+//CONSTANTES
+struct nodoConstanteOctal {
+    int octal;
+    struct nodoConstanteOctal *sig;
+};
+struct nodoConstanteOctal *raizConstanteOctal=NULL;
+struct nodoConstanteOctal *fondoConstanteOctal=NULL;
+
+struct nodoConstanteHexa {
+    char *datoEnHexa;
+    int hexa; //POSIBLE CONVERSION
+    struct nodoConstanteHexa *sig;
+};
+struct nodoConstanteHexa *raizConstanteHexa=NULL;
+struct nodoConstanteHexa *fondoConstanteHexa=NULL;
+
+
+struct nodoConstanteDecimal {
+    int decimal ;
+    struct nodoConstanteDecimal *sig;
+};
+struct nodoConstanteDecimal *raizConstanteDecimal=NULL;
+struct nodoConstanteDecimal *fondoConstanteDecimal=NULL;
+
+
+struct nodoConstanteReal {
+    int mantisa ;
+    int parteEntera ;
+    struct nodoConstanteReal *sig;
+};
+struct nodoConstanteReal *raizConstanteReal=NULL;
+struct nodoConstanteReal *fondoConstanteReal=NULL;
+
+struct nodoConstanteCaracter {
+    char caracter;
+    struct nodoConstanteCaracter *sig;
+};
+struct nodoConstanteCaracter *raizConstanteCaracter=NULL;
+struct nodoConstanteCaracter *fondoConstanteCaracter=NULL;
+
+//OPERADORES/CARACTERES DE PUNTUACIÓN
+
+struct nodoOperOCaractPunt {
+    char caracter;
+    struct nodoOperOCaractPunt *sig;
+};
+struct nodoOperOCaractPunt *raizOperOCaractPunt=NULL;
+struct nodoOperOCaractPunt *fondoOperOCaractPunt=NULL;
+
+//COMENTARIOS --- HASTA ACA SON CATE LEXICAS
+
+
+struct nodoComentario {
+    char *comentario;
+    char tipo[10]; //ACA PODEMOS VER TAMBIEN DINAMICO
+    struct nodoComentario *sig;
+};
+struct nodoComentario *raizComentarios=NULL;
+struct nodoComentario *fondoComentarios=NULL;
+
+
+struct nodoNoReconocidos {
+    char *noReconocido;
+    int linea; 
+    struct nodoNoReconocidos *sig;
+};
+struct nodoNoReconocidos *raizNoReconocidos=NULL;
+struct nodoNoReconocidos *fondoNoReconocidos=NULL;
+
+// STRUCK CON TODOS LOS PUNTEROS (YO HARIA ASI)
+
+struct categoriasLexicas{
 
 
 
-int nros = 0, pals = 0;
+}
+
+
 
 
 
