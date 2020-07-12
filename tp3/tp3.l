@@ -3,14 +3,19 @@
 /* Reconoce números enteros y palabras alfabéticas; además,
  cuenta las ocurrencias de ambos */
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+
 //IDENTIFICADORES
 struct nodoIdentificadores {
     char *identificador;
     int cantidadIdentificadores;
     struct nodoIdentificadores *sig;
 };
-//struct nodoIdentificadores *raizIdentificadores=NULL;
-//struct nodoIdentificadores *fondoIdentificadores=NULL;
+typedef struct nodoIdentificadores NodoIdentificadores;
+NodoIdentificadores *raizIdentificadores=NULL;
+NodoIdentificadores *fondoIdentificadores=NULL;
 
 //LITERAL CADENA
 struct nodoLiteralCadena {
@@ -18,18 +23,20 @@ struct nodoLiteralCadena {
     int longitud;
     struct nodoLiteralCadena *sig;
 };
-//struct nodoLiteralCadena *raizLiteralCadena=NULL;
-//struct nodoLiteralCadena *fondoLiteralCadena=NULL;
+typedef struct nodoLiteralCadena NodoLiteralCadena;
+NodoLiteralCadena *raizLiteralCadena=NULL;
+NodoLiteralCadena *fondoLiteralCadena=NULL;
 
 //PALABRAS RESERVADAS 
 
 struct nodoPalabrasReservadas {
     char *palabraReservada;
-    char tipo[19]; //ACA CAPAZ PODEMOS HACER DINAMICO TAMBIEN
+    char *tipo; 
     struct nodoPalabrasReservadas *sig;
 };
-//struct nodoPalabrasReservadas *raizPalabrasReservadas=NULL;
-//struct nodoPalabrasReservadas *fondoPalabrasReservadas=NULL;
+typedef struct nodoPalabrasReservadas NodoPalabrasReservadas;
+NodoPalabrasReservadas *raizPalabrasReservadas=NULL;
+NodoPalabrasReservadas *fondoPalabrasReservadas=NULL;
 
 
 
@@ -38,24 +45,27 @@ struct nodoConstanteOctal {
     int octal;
     struct nodoConstanteOctal *sig;
 };
-//struct nodoConstanteOctal *raizConstanteOctal=NULL;
-//struct nodoConstanteOctal *fondoConstanteOctal=NULL;
+typedef struct nodoConstanteOctal NodoConstanteOctal;
+NodoConstanteOctal *raizConstanteOctal=NULL;
+NodoConstanteOctal *fondoConstanteOctal=NULL;
 
 struct nodoConstanteHexa {
     char *datoEnHexa;
     int hexa; //POSIBLE CONVERSION
     struct nodoConstanteHexa *sig;
 };
-//struct nodoConstanteHexa *raizConstanteHexa=NULL;
-//struct nodoConstanteHexa *fondoConstanteHexa=NULL;
+typedef struct nodoConstanteHexa NodoConstanteHexa;
+NodoConstanteHexa *raizConstanteHexa=NULL;
+NodoConstanteHexa *fondoConstanteHexa=NULL;
 
 
 struct nodoConstanteDecimal {
     int decimal ;
     struct nodoConstanteDecimal *sig;
 };
-//struct nodoConstanteDecimal *raizConstanteDecimal=NULL;
-//struct nodoConstanteDecimal *fondoConstanteDecimal=NULL;
+typedef struct nodoConstanteDecimal NodoConstanteDecimal;
+NodoConstanteDecimal *raizConstanteDecimal=NULL;
+NodoConstanteDecimal *fondoConstanteDecimal=NULL;
 
 
 struct nodoConstanteReal {
@@ -63,34 +73,38 @@ struct nodoConstanteReal {
     int parteEntera ;
     struct nodoConstanteReal *sig;
 };
-//struct nodoConstanteReal *raizConstanteReal=NULL;
-//struct nodoConstanteReal *fondoConstanteReal=NULL;
+typedef struct nodoConstanteReal NodoConstanteReal;
+NodoConstanteReal *raizConstanteReal=NULL;
+NodoConstanteReal *fondoConstanteReal=NULL;
 
 struct nodoConstanteCaracter {
-    char caracter;
+    char *caracter;
     struct nodoConstanteCaracter *sig;
 };
-struct nodoConstanteCaracter *raizConstanteCaracter=NULL;
-struct nodoConstanteCaracter *fondoConstanteCaracter=NULL;
+typedef struct nodoConstanteCaracter NodoConstanteCaracter;
+NodoConstanteCaracter *raizConstanteCaracter=NULL;
+NodoConstanteCaracter *fondoConstanteCaracter=NULL;
 
 //OPERADORES/CARACTERES DE PUNTUACIÓN
 
 struct nodoOperOCaractPunt {
-    char caracter;
+    char *caracter;
     struct nodoOperOCaractPunt *sig;
 };
-//struct nodoOperOCaractPunt *raizOperOCaractPunt=NULL;
-//struct nodoOperOCaractPunt *fondoOperOCaractPunt=NULL;
+typedef struct nodoOperOCaractPunt NodoOperOCaractPunt;
+NodoOperOCaractPunt *raizOperOCaractPunt=NULL;
+NodoOperOCaractPunt *fondoOperOCaractPunt=NULL;
 
 //COMENTARIOS 
 
 struct nodoComentario {
     char *comentario;
-    char tipo[10]; //ACA PODEMOS VER TAMBIEN DINAMICO
+    char *tipo; 
     struct nodoComentario *sig;
 };
-//struct nodoComentario *raizComentarios=NULL;
-//struct nodoComentario *fondoComentarios=NULL;
+typedef struct nodoComentario NodoComentario;
+NodoComentario *raizComentarios=NULL;
+NodoComentario *fondoComentarios=NULL;
 
 
 struct nodoNoReconocidos {
@@ -98,77 +112,99 @@ struct nodoNoReconocidos {
     int linea; 
     struct nodoNoReconocidos *sig;
 };
-//struct nodoNoReconocidos *raizNoReconocidos=NULL;
-//struct nodoNoReconocidos *fondoNoReconocidos=NULL;
+typedef struct nodoNoReconocidos NodoNoReconocidos;
+NodoNoReconocidos *raizNoReconocidos=NULL;
+NodoNoReconocidos *fondoNoReconocidos=NULL;
 
 // STRUCK CON TODOS LOS PUNTEROS (YO HARIA ASI)
 
-typedef struct{
-    struct nodoIdentificadores *raizIdentificadores;
-    struct nodoIdentificadores *fondoIdentificadores;
+agregarNodo(int categoria,char* informacionNueva){
+          if(categoria==0){  //IDENTIFICADORES
 
-    struct nodoLiteralCadena *raizLiteralCadena;
-    struct nodoLiteralCadena *fondoLiteralCadena;
+    }else if(categoria==1){   //LITERA CADENA  
 
-    struct nodoPalabrasReservadas *raizPalabrasReservadas;
-    struct nodoPalabrasReservadas *fondoPalabrasReservadas;
+    }else if(categoria==2){   //PALABRAS RESERVADAS
 
-    struct nodoConstanteOctal *raizConstanteOctal;
-    struct nodoConstanteOctal *fondoConstanteOctal;
-    struct nodoConstanteHexa *raizConstanteHexa;
-    struct nodoConstanteHexa *fondoConstanteHexa;
-    struct nodoConstanteDecimal *raizConstanteDecimal;
-    struct nodoConstanteDecimal *fondoConstanteDecimal;
-    struct nodoConstanteReal *raizConstanteReal;
-    struct nodoConstanteReal *fondoConstanteReal;
-    struct nodoConstanteCaracter *raizConstanteCaracter;
-    struct nodoConstanteCaracter *fondoConstanteCaracter;
+    }else if(categoria==3){   //OCTAL
+        
+    }else if(categoria==4){   //HEXA
 
-    struct nodoOperOCaractPunt *raizOperOCaractPunt;
-    struct nodoOperOCaractPunt *fondoOperOCaractPunt;
+    }else if(categoria==5){  //DECIMAL
+            NodoConstanteDecimal *nuevoNodo;
+            nuevoNodo->decimal=atoi(informacionNueva);
+            nuevoNodo->sig=NULL;
+            if(raizConstanteDecimal==NULL){
+               raizConstanteDecimal=nuevoNodo;
+               fondoConstanteDecimal=nuevoNodo;
+            }else{
+                fondoConstanteDecimal->sig=nuevoNodo;
+                fondoConstanteDecimal=nuevoNodo;
+            }
 
-    struct nodoComentario *raizComentarios;
-    struct nodoComentario *fondoComentarios;
+    }else if(categoria==6){  //REALES
 
-    struct nodoNoReconocidos *raizNoReconocidos;
-    struct nodoNoReconocidos *fondoNoReconocidos;
-}EstructuraDePunteros;
+    }else if(categoria==7){  //CARACTERES 
+            NodoConstanteCaracter *nuevoNodo;
+            nuevoNodo->caracter=strdup(informacionNueva);
+            if(raizConstanteCaracter==NULL){
+               raizConstanteCaracter=nuevoNodo;
+               fondoConstanteCaracter=nuevoNodo;
+            }else{
+                fondoConstanteCaracter->sig=nuevoNodo;
+                fondoConstanteCaracter=nuevoNodo;
+            }
+    }else if(categoria==8){  //OPERADORES/CARACTERES DE PUNTUACIÓN
 
-inicializarCategorias(struct EstructuraDePunteros *categorias){
-  categorias->raizIdentificadores=NULL; ..
+    }else if(categoria==9){  //COMENTARIOS 
+
+
+    }else if(categoria==10){
+
+    }
+
+}
+
+
+
+
 }
 
 %}
-  //REGLAS  ta medio raro nose porq no pone colorcitos   
+
+DIGITO_DECIMAL [0-9]     [0123456789]    
+DIGITO_OCTAL [0-7] 
+DIGITO_HEXADECIMAL [a-fA-F0-9] 
+LETRA [a-zA-Z] 
+//PAL_RESERV_TIPDATOS  ["int"""] 
+//PAL_RESERV_CONTROL   []
+//PAL_RESERV_OTROS     []
+
 %% 
-[_a-zA-Z][_0-9a-zA-Z]* {ACCION;} //DENTIFICADORES
+({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")* {;} //DENTIFICADORES
+  //literal cadena
+("int"|"float"|"char"|"long"|"double"|"unsigned"|"short"|"struct"|"typedef"|"void"|"signed"|"enum"|"register"|"union") {accion;}// palabra reserv tipo datos
+("do"|"while"|"else"|"if"|"for"|"break"|"case"|"default"|"continue") {accion;}//palabra reservada estructurade control
+("sizeof"|"return"|"const"|"volatile"|"goto"|"extern"|"auto"|"static") {accion;}   //palabra reseervada otros
 
-int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union {accion;}// palabra reserv tipo datos
-do|while|else|if|for|break|case|default|continue {accion;}//palabra reservada estructurade control
-sizeof|return|const|volatile|goto|extern|auto|static {accion;}   //palabra reseervada otros
+[1-9]{DIGITO_DECIMAL}* {;}
+0{DIGITO_OCTAL}* {;}
+0[xX]{DIGITO_HEXADECIMAL}+ {;}
 
-0[0-7]* {accion;}//octal
+{DIGITO_DECIMAL}*.{DIGITO_DECIMAL}+([Ee](+|-)?{DIGITO_DECIMAL}*)? {accion;} //real
+{DIGITO_DECIMAL}.([Ee](+|-)?{DIGITO_DECIMAL}*)? {accion;} //real
 
-0[xX][0-9a-fA-F]+ {accion;}//hexa
-
-[1-9][0-9]* {accion;} //hexa
-
-[0-9]*.[0-9]+([Ee](+|-)?[0-9]*)? {accion;} //real
-[0-9].([Ee](+|-)?[0-9]*)? {accion;} //real
 
 faltan varios hay q ver y como armar la er
 
-
-
 %%
-     //PROGRAMA EN C
 int main(void) { 
- EstructuraDePunteros categorias;
- inicializarCategorias(&categorias);
+    EstructuraDePunteros categorias;
+    inicializarCategorias(&categorias);
 
- yylex();
- printf("Se reconocieron:\n");
- printf("%d Numeros y\n", nros);
- printf("%d Palabras.\n\n", pals);
- return 0;
+    yylex();
+    printf("Se reconocieron:\n");
+    printf("%d Numeros y\n", nros);
+    printf("%d Palabras.\n\n", pals);
+    return 0;
 } 
+
