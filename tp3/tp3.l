@@ -147,6 +147,7 @@ agregarNodo(int categoria,char* informacionNueva){
     }else if(categoria==7){  //CARACTERES 
             NodoConstanteCaracter *nuevoNodo;
             nuevoNodo->caracter=strdup(informacionNueva);
+            nuevoNodo=malloc(sizeof(struct nodoConstanteCaracter));
             if(raizConstanteCaracter==NULL){
                raizConstanteCaracter=nuevoNodo;
                fondoConstanteCaracter=nuevoNodo;
