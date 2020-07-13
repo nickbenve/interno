@@ -131,6 +131,7 @@ agregarNodo(int categoria,char* informacionNueva){
 
     }else if(categoria==5){  //DECIMAL
             NodoConstanteDecimal *nuevoNodo;
+            nuevoNodo=malloc(sizeof(struct nodoConstanteDecimal));
             nuevoNodo->decimal=atoi(informacionNueva);
             nuevoNodo->sig=NULL;
             if(raizConstanteDecimal==NULL){
