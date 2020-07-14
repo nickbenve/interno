@@ -73,7 +73,7 @@ NodoConstanteDecimal *fondoConstanteDecimal=NULL;
 
 
 struct nodoConstanteReal {
-    int mantisa ;
+    float mantisa ;
     int parteEntera ;
     struct nodoConstanteReal *sig;
 };
@@ -193,8 +193,18 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
     }else if(categoria==6){  //REALES
             NodoConstanteReal *nuevoNodo;
             nuevoNodo=malloc(sizeof(NodoConstanteReal));
-            
-
+            float num=strtof("4.02", NULL);
+            int parteEn = (int)num;
+            nuevoNodo->mantiza=num-parteEn;
+            nuevoNodo->parteEntera=parteEn;
+            nuevoNodo->sig=NULL;
+            if(raizConstanteReal==NULL){
+               raizConstanteReal=nuevoNodo;
+               
+            }else{
+                fondoConstanteReal->sig=nuevoNodo;    
+            }
+            fondoConstanteReal=nuevoNodo;
 
 
 
