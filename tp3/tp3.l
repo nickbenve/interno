@@ -120,6 +120,7 @@ NodoNoReconocidos *raizNoReconocidos=NULL;
 NodoNoReconocidos *fondoNoReconocidos=NULL;
 
 // STRUCK CON TODOS LOS PUNTEROS (YO HARIA ASI)
+long decimal;
 
 agregarNodo(int categoria,char* informacionNueva){
           if(categoria==0){  //IDENTIFICADORES
@@ -134,7 +135,7 @@ agregarNodo(int categoria,char* informacionNueva){
           decimal=conversorDeHexaADecimal(informacionNueva);
           NodoConstanteHexa *nuevoNodo;
           nuevoNodo=malloc(sizeof(struct nodoConstanteHexa));
-          nuevoNodo->datoEnHexa=informacionNueva;
+          strcpy (nuevoNodo->datoEnHex,informacionNueva);
           nuevoNodo->decimal=conversorDeHexaADecimal(informacionNueva);
           nuevoNodo->sig=NULL;
           if(raizConstanteHexa==NULL){
@@ -189,14 +190,15 @@ agregarNodo(int categoria,char* informacionNueva){
 } //PARA MI ESTE ESTA D MAS
 
 long conversorDeHexaADecimal(char* informacionNueva){
+   repredecimal=0
    int longitud;
    longitud = strlen(informacionNueva);
    longitud--;
    int recorrido=longitud;
    for(;recorrido>=0;recorrido--){
-        decimal+=pow(16,longitud-recorrido)*representacionDigito(*(informacionNueva)+recorrido);     
+        repredecimal+=pow(16,longitud-recorrido)*representacionDigito(*(informacionNueva)+recorrido);     
     }
-   return decimal;
+   return repredecimal;
 }
 
 int representacionDigitoHexa(char digito){
