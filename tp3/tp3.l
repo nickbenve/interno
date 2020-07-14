@@ -1,10 +1,13 @@
 %option noyywrap
 %{
-/* Reconoce números enteros y palabras alfabéticas; además,
- cuenta las ocurrencias de ambos */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
+
+//PROTOTIPOS
+int conversorDeHexaADecimal(char*);
+int representacionDigitoHexa(char digito);
 
 
 //IDENTIFICADORES
@@ -51,7 +54,7 @@ NodoConstanteOctal *fondoConstanteOctal=NULL;
 
 struct nodoConstanteHexa {
     char *datoEnHexa;
-    int hexa; //POSIBLE CONVERSION
+    int decimal; //POSIBLE CONVERSION
     struct nodoConstanteHexa *sig;
 };
 typedef struct nodoConstanteHexa NodoConstanteHexa;
@@ -127,7 +130,21 @@ agregarNodo(int categoria,char* informacionNueva){
 
     }else if(categoria==3){   //OCTAL
         
-    }else if(categoria==4){   //HEXA
+    }else if(categoria==4){   //HEXA  EL RESTO ES SUPER PARECIDO SOLO Q CAMBIAMOS UNAS COSITAS NOMAS
+          decimal=conversorDeHexaADecimal(informacionNueva);
+          NodoConstanteHexa *nuevoNodo;
+          nuevoNodo=malloc(sizeof(struct nodoConstanteHexa));
+          nuevoNodo->datoEnHexa=informacionNueva;
+          nuevoNodo->decimal=conversorDeHexaADecimal(informacionNueva);
+          nuevoNodo->sig=NULL;
+          if(raizConstanteHexa==NULL){
+               raizConstanteHexa=nuevoNodo;
+               fondoConstanteHeza=nuevoNodo;
+          }else{
+                fondoConstanteHexa->sig=nuevoNodo;
+                fondoConstanteHexa=nuevoNodo;
+          }
+ 
 
     }else if(categoria==5){  //DECIMAL
             NodoConstanteDecimal *nuevoNodo;
@@ -169,7 +186,44 @@ agregarNodo(int categoria,char* informacionNueva){
 
 
 
+} //PARA MI ESTE ESTA D MAS
+
+int conversorDeHexaADecimal(char* informacionNueva){
+   int longitud;
+   longitud = strlen(informacionNueva);
+   longitud--;
+   int recorrido=longitud;
+   for(;recorrido>=0;recorrido--){
+        decimal+=pow(16,longitud-recorrido)*representacionDigito(*(informacionNueva)+recorrido);     
+    }
+   return decimal;
 }
+
+int representacionDigitoHexa(char digito){
+        switch(digito){
+            case 'a':
+                return 10;
+                break;
+            case 'b':
+                return 11;
+                break;
+            case 'c':
+                return 12;
+                break;
+            case 'd':
+                return 13;
+                break;
+            case 'e':
+                return 14;
+                break;
+            case 'f':
+                return 15;
+                break;    
+            default:
+                return digito;
+        }
+}
+
 
 %}
 
