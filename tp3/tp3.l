@@ -193,7 +193,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
     }else if(categoria==6){  //REALES
             NodoConstanteReal *nuevoNodo;
             nuevoNodo=malloc(sizeof(NodoConstanteReal));
-            float num=strtof("4.02", NULL);
+            float num=strtof(informacionNueva, NULL);
             int parteEn = (int)num;
             nuevoNodo->mantiza=num-parteEn;
             nuevoNodo->parteEntera=parteEn;
