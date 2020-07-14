@@ -237,7 +237,7 @@ long conversorADecimal(char* informacionNueva,int base){
    longitud--;
    int recorrido=longitud;
    for(;recorrido>=0;recorrido--){
-        repredecimal+=pow(base,longitud-recorrido)*representacionDigito(*(informacionNueva)+recorrido,base);     
+        repredecimal+=pow(base,longitud-recorrido)*representacionDigito(*(informacionNueva+recorrido),base);     
    }
    return repredecimal;
 }
