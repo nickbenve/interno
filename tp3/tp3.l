@@ -122,9 +122,6 @@ NodoNoReconocidos *raizNoReconocidos=NULL;
 NodoNoReconocidos *fondoNoReconocidos=NULL;
 
 
-NodoLiteralCadena *raizLiteralCadena=NULL;
-NodoLiteralCadena *fondoLiteralCadena=NULL;
-
 long decimal;
 void agregarNodo(int categoria,char* informacionNueva,char* tipo){
           if(categoria==0){  //IDENTIFICADORES
