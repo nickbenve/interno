@@ -6,7 +6,7 @@
 #include <math.h>
 
 //PROTOTIPOS
-int conversorDeHexaADecimal(char*);
+long conversorDeHexaADecimal(char*);
 int representacionDigitoHexa(char digito);
 
 
@@ -188,7 +188,7 @@ agregarNodo(int categoria,char* informacionNueva){
 
 } //PARA MI ESTE ESTA D MAS
 
-int conversorDeHexaADecimal(char* informacionNueva){
+long conversorDeHexaADecimal(char* informacionNueva){
    int longitud;
    longitud = strlen(informacionNueva);
    longitud--;
