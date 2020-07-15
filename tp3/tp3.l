@@ -73,7 +73,7 @@ NodoConstanteDecimal *fondoConstanteDecimal=NULL;
 
 
 struct nodoConstanteReal {
-    float mantisa ;
+    float mantiza ;
     int parteEntera ;
     struct nodoConstanteReal *sig;
 };
