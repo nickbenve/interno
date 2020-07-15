@@ -157,7 +157,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
           nuevoNodo->datoEnOctal=strdup(informacionNueva);
           nuevoNodo->decimal=conversorADecimal(informacionNueva,8);
           nuevoNodo->sig=NULL;
-          if(raizConstanteOctal=NULL){
+          if(raizConstanteOctal==NULL){
                raizConstanteOctal=nuevoNodo;
           }else{
                 fondoConstanteOctal->sig=nuevoNodo;
