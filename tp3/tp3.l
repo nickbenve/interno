@@ -220,7 +220,30 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
             fondoConstanteCaracter=nuevoNodo;
 
     }else if(categoria==8){  //OPERADORES/CARACTERES DE PUNTUACIÓN
-          
+            NodoOperOCaractPunt *recorridoOC,*nuevoNodo;
+            recorridoOC=raizOperOCaractPunt;
+            if(raizOperOCaractPunt==NULL){
+                 nuevoNodo=malloc(sizeof(NodoOperOCaractPunt));
+                 nuevoNodo->caracter=strdup(informacionNueva);
+                 nuevoNodo->cantidadOperOCaractPunt=1;
+                 nuevoNodo->sig=NULL;
+                 raizOperOCaractPunt=nuevoNodo;
+                 fondoOperOCaractPunt=nuevoNodo;
+            }else{
+                 while(recorridoOC!=NULL&& strcmp(informacionNueva,recorridoOC->caracter)!=0){
+                    recorridoOC=recorridoOC->sig;    
+                 }
+                 if(recorridoOC==NULL){
+                    nuevoNodo=malloc(sizeof(NodoOperOCaractPunt));
+                    nuevoNodo->caracter=strdup(informacionNueva);
+                    nuevoNodo->cantidadOperOCaractPunt=1;
+                    nuevoNodo->sig=NULL;
+                    fondoOperOCaractPunt->sig=nuevoNodo;
+                    fondoOperOCaractPunt=nuevoNodo;
+                }else{
+                    (recorridoOC->cantidadOperOCaractPunt)++;
+                }
+            }
 
     }else if(categoria==9){  //COMENTARIOS 
            NodoComentario *nuevoNodo;
@@ -323,6 +346,85 @@ PAL_RESERV_OTROS  {accion;}   //palabra reservada otros
 %%
 int main(void) { 
     yylex();
+    
+    
+    
+    
+    
+    NodoLiteralCadena *recorridoLC;
+    recorridoLC=raizLiteralCadena;
+    while(recorridoLC!=NULL){
+       printf("el literal cadena %s",recorridoLC->literalCadena);
+       printf(" tiene un largo de %d \n",recorridoLC->longitud);
+       recorridoLC=recorridoLC->sig;
+    }
+    
+    NodoPalabrasReservadas *recorridoPR;
+    recorridoPR=raizPalabrasReservadas;
+    while(recorridoPR!=NULL){
+       printf("La palabra reservada %s",recorridoPR->palabraReservada);
+       printf(" tiene un tipo  %s \n",recorridoPR->tipo);
+       recorridoPR=recorridoPR->sig;
+    }
+    
+    NodoConstanteOctal *recorridoCO;
+    recorridoCO=raizConstanteOctal;
+    while(recorridoCO!=NULL){
+       printf("La constante octal %s",recorridoCO->datoEnOctal);
+       printf(" vale en decimal  %d \n",recorridoCO->decimal);
+       recorridoCO=recorridoCO->sig;
+    }
+    
+    NodoConstanteHexa *recorridoCH;
+    recorridoCH=raizConstanteHexa;
+    while(recorridoCH!=NULL){
+       printf("La constante hexa %s",recorridoCH->datoEnHexa);
+       printf(" vale en decimal  %d \n",recorridoCH->decimal);
+       recorridoCH=recorridoCH->sig;
+    }
+    
+    NodoConstanteDecimal *recorridoD;
+    recorridoD=raizConstanteDecimal;
+    while(recorridoD!=NULL){
+       printf(" decimal  %d \n",recorridoD->decimal);
+       recorridoD=recorridoD->sig;
+    }
+    
+    NodoConstanteReal *recorridoR;
+    recorridoR=raizConstanteReal;
+    while(recorridoR!=NULL){
+       printf("el valor entero %d ",recorridoR->parteEntera);
+       printf(" con mantiza %f \n",recorridoR->mantiza);
+       recorridoR=recorridoR->sig;
+    }
+    
+    NodoConstanteCaracter *recorridoC;
+    recorridoC=raizConstanteCaracter;
+    while(recorridoC!=NULL){
+       printf("el caracter %s \n",recorridoC->caracter);
+       recorridoC=recorridoC->sig;
+    }
+    
+    NodoOperOCaractPunt *recorridoCP;
+    recorridoCP=raizOperOCaractPunt;
+    while(recorridoCP!=NULL){
+       printf("el caracter de ope o punt %s ",recorridoCP->caracter);
+       printf("aparece estas veces: %d \n",recorridoCP->cantidadOperOCaractPunt);
+
+       recorridoCP=recorridoCP->sig;
+    }
+    
+    
+    
+    
+    NodoComentario *recorridoComen;
+    recorridoComen=raizComentario;
+    while(recorridoComen!=NULL){
+       
+       printf("el comentario %s",recorridoComen->comentario);
+       printf(" es de tipo %s \n",recorridoComen->tipo);
+       recorridoComen=recorridoComen->sig;
+    }
     
     printf("Se reconocieron:\n");
     printf("%d Numeros y\n", nros);
