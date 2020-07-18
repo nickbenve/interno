@@ -403,7 +403,14 @@ PAL_RESERV_OTROS  {accion;}   //palabra reservada otros
 int main(void) { 
     yylex();
     
-    
+      NodoIdentificadores *recorridoI;
+    recorridoI=raizIdentificadores;
+    while(recorridoI!=NULL){
+       printf("el identificador %s ",recorridoI->identificador);
+       printf("aparece estas veces: %d \n",recorridoI->cantidadIdentificadores);
+
+       recorridoI=recorridoI->sig;
+    }
     
     
     
