@@ -125,7 +125,7 @@ NodoNoReconocidos *fondoNoReconocidos=NULL;
 long decimal;
 void agregarNodo(int categoria,char* informacionNueva,char* tipo){
     if(categoria==0){  //IDENTIFICADORES
-               NodoIdentificadores *nuevoNodo,*recorridoADE,*recorridoATRA;
+              NodoIdentificadores *nuevoNodo,*recorridoADE,*recorridoATRA;
             if(raizIdentificadores==NULL){
                 nuevoNodo=malloc(sizeof(NodoIdentificadores));
                 nuevoNodo->identificador=strdup(informacionNueva);
@@ -136,22 +136,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
             }else{
                 recorridoADE=raizIdentificadores->sig;
                 recorridoATRA=raizIdentificadores;
-                while(recorridoADE!=NULL&& strcmp(informacionNueva,recorridoADE->identificador)!=0){
-                    int a=strcmp(recorridoADE->identificador,informacionNueva);
-                    switch(a){
-                        case -1:
-                            nuevoNodo=malloc(sizeof(NodoIdentificadores));
-                            nuevoNodo->identificador=strdup(informacionNueva);
-                            nuevoNodo->cantidadIdentificadores=1;
-                            nuevoNodo->sig=recorridoADE;
-                            nuevoNodo->ant=recorridoATRA;
-                            recorridoATRA=nuevoNodo;
-                            break;
-                        case 0:
-                            (recorridoADE->cantidadIdentificadores)++;
-                            break;
-                    }
-                    
+                while(recorridoADE!=NULL&& strcmp(informacionNueva,recorridoADE->identificador)>=0){
                     recorridoADE=recorridoADE->sig;
                     recorridoATRA=recorridoATRA->sig;
                 }
@@ -171,7 +156,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
                             nuevoNodo=malloc(sizeof(NodoIdentificadores));
                             nuevoNodo->identificador=strdup(informacionNueva);
                             nuevoNodo->cantidadIdentificadores=1;
-                            nuevoNodo->sig=NULL;
+                            nuevoNodo->sig=recorridoATRA;
                             nuevoNodo->ant=recorridoATRA->ant;
                             if(recorridoATRA->ant!=NULL){
                                 (recorridoATRA->ant)->sig=nuevoNodo;
@@ -179,7 +164,19 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
                         }
                     }
                 }else{
-                    (recorridoADE->cantidadIdentificadores)++;
+                    int b=strcmp(informacionNueva,recorridoATRA->identificador);
+                    if(b<<0){
+                        nuevoNodo=malloc(sizeof(NodoIdentificadores));
+                        nuevoNodo->identificador=strdup(informacionNueva);
+                        nuevoNodo->cantidadIdentificadores=1;
+                        nuevoNodo->sig=recorridoATRA;
+                        nuevoNodo->ant=recorridoATRA->ant;
+                        if(recorridoATRA->ant==NULL){
+                            raizIdentificadores=nuevoNodo;
+                        }
+                    }else{
+                        (recorridoADE->cantidadIdentificadores)++;
+                    }
                 }
                 
             
