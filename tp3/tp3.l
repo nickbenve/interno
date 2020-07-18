@@ -124,8 +124,47 @@ NodoNoReconocidos *fondoNoReconocidos=NULL;
 
 long decimal;
 void agregarNodo(int categoria,char* informacionNueva,char* tipo){
-          if(categoria==0){  //IDENTIFICADORES
-
+    if(categoria==0){  //IDENTIFICADORES
+                NodoIdentificadores *recorridoATRA,*recorridoADE,*nuevoNodo;
+            if(raizIdentificadores==NULL){
+                 nuevoNodo=malloc(sizeof(NodoIdentificadores));
+                 nuevoNodo->identificador=strdup(informacionNueva);
+                 nuevoNodo->cantidadIdentificadores=1;
+                 nuevoNodo->sig=NULL;
+                 nuevoNodo->ant=NULL;
+                 raizIdentificadores=nuevoNodo;
+                 recorridoATRA=raizIdentificadores;
+            }else{
+                 recorridoADE=recorridoATRA->sig;
+                 while(recorridoADE!=NULL&&strcmp(informacionNueva,recorridoADE->identificador)>=0){
+                     recorridoATRA=recorridoADE;
+                     recorridoADE=recorridoADE->sig;
+                 }
+                 if(recorridoADE==NULL){
+                      if(strcmp(informacionNueva,recorridoATRA->identificador)==0){
+                          (recorridoATRA->cantidadIdentificadores)++;
+                      }else{
+                          nuevoNodo=malloc(sizeof(NodoIdentificadores));
+                          nuevoNodo->identificador=strdup(informacionNueva);
+                          nuevoNodo->cantidadIdentificadores=1;
+                          nuevoNodo->sig=NULL;
+                          nuevoNodo->ant=recorridoATRA;
+                      }  
+                 }else{
+                      if(strcmp(informacionNueva,recorridoATRA->identificador)==0){
+                          (recorridoATRA->cantidadIdentificadores)++;
+                      }else{
+                          nuevoNodo=malloc(sizeof(NodoIdentificadores));
+                          nuevoNodo->identificador=strdup(informacionNueva);
+                          nuevoNodo->cantidadIdentificadores=1;
+                          nuevoNodo->sig=recorridoADE;
+                          nuevoNodo->ant=recorridoATRA->ant;
+                          recorridoATRA->sig=nuevoNodo;
+                          (recorridoATRA->ant)->sig=nuevoNodo;
+                      }
+                 }
+                 
+            }
     }else if(categoria==1){   //LITERA CADENA  
             NodoLiteralCadena *nuevoNodo;
             nuevoNodo=malloc(sizeof(struct nodoLiteralCadena));
