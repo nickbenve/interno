@@ -126,7 +126,7 @@ NodoNoReconocidos *fondoNoReconocidos=NULL;
 long decimal;
 void agregarNodo(int categoria,char* informacionNueva,char* tipo){
     if(categoria==0){  //IDENTIFICADORES
-              NodoIdentificadores *nuevoNodo,*recorridoADE,*recorridoATRA;
+             NodoIdentificadores *nuevoNodo,*recorrido;
             if(raizIdentificadores==NULL){
                 nuevoNodo=malloc(sizeof(NodoIdentificadores));
                 nuevoNodo->identificador=strdup(informacionNueva);
@@ -135,53 +135,38 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
                 nuevoNodo->ant=NULL;
                 raizIdentificadores=nuevoNodo;
             }else{
-                recorridoADE=raizIdentificadores->sig;
-                recorridoATRA=raizIdentificadores;
-                while(recorridoADE!=NULL&& strcmp(informacionNueva,recorridoADE->identificador)>=0){
-                    recorridoADE=recorridoADE->sig;
-                    recorridoATRA=recorridoATRA->sig;
+                recorrido=raizIdentificadores;
+                int c=0;
+                c=strcmp(informacionNueva,recorrido->identificador);
+                while(recorrido->sig!=NULL&&strcmp(informacionNueva,recorrido->identificador)>=0){
+                    recorrido=recorrido->sig;
                 }
-                if(recorridoADE==NULL){
-                    int b;
-                    b=strcmp(informacionNueva,recorridoATRA->identificador);
-                    if(b>>0){
+                int b;
+                b=strcmp(informacionNueva,recorrido->identificador);
+                if(b>0){
                         nuevoNodo=malloc(sizeof(NodoIdentificadores));
                         nuevoNodo->identificador=strdup(informacionNueva);
                         nuevoNodo->cantidadIdentificadores=1;
-                        nuevoNodo->sig=NULL;
-                        recorridoATRA->sig=nuevoNodo;
+                        nuevoNodo->sig=recorrido->sig;
+                        nuevoNodo->ant=recorrido;
+                        recorrido->sig=nuevoNodo;
                     }else{
                         if(b==0){
-                            (recorridoATRA->cantidadIdentificadores)++;
+                            (recorrido->cantidadIdentificadores)++;
                         }else{
                             nuevoNodo=malloc(sizeof(NodoIdentificadores));
                             nuevoNodo->identificador=strdup(informacionNueva);
                             nuevoNodo->cantidadIdentificadores=1;
-                            nuevoNodo->sig=recorridoATRA;
-                            nuevoNodo->ant=recorridoATRA->ant;
-                            if(recorridoATRA->ant!=NULL){
-                                (recorridoATRA->ant)->sig=nuevoNodo;
+                            nuevoNodo->sig=recorrido;
+                            if(recorrido->ant==NULL){
+                                raizIdentificadores=nuevoNodo;
+                            }else{
+                                (recorrido->ant)->sig=nuevoNodo;
                             }
+                            
                         }
                     }
-                }else{
-                    int b=strcmp(informacionNueva,recorridoATRA->identificador);
-                    if(b<<0){
-                        nuevoNodo=malloc(sizeof(NodoIdentificadores));
-                        nuevoNodo->identificador=strdup(informacionNueva);
-                        nuevoNodo->cantidadIdentificadores=1;
-                        nuevoNodo->sig=recorridoATRA;
-                        nuevoNodo->ant=recorridoATRA->ant;
-                        if(recorridoATRA->ant==NULL){
-                            raizIdentificadores=nuevoNodo;
-                        }
-                    }else{
-                        (recorridoADE->cantidadIdentificadores)++;
-                    }
-                }
-                
-            
-                
+               
             }
     }else if(categoria==1){   //LITERA CADENA  
             NodoLiteralCadena *nuevoNodo;
