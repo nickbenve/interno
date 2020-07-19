@@ -16,6 +16,7 @@ struct nodoIdentificadores {
     char *identificador;
     int cantidadIdentificadores;
     struct nodoIdentificadores *sig;
+    struct nodoIdentificadores *ant;
 };
 typedef struct nodoIdentificadores NodoIdentificadores;
 NodoIdentificadores *raizIdentificadores=NULL;
