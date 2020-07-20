@@ -127,9 +127,24 @@ long decimal;
 void agregarNodo(int categoria,char* informacionNueva,char* tipo){
     if(categoria==0){  //IDENTIFICADORES
              NodoIdentificadores *nuevoNodo,*recorrido;
+            char informacionNMayuscula[strlen(informacionNueva)];
+            int limite=sizeof(informacionNMayuscula);
+            strcpy(informacionNMayuscula,informacionNueva);
+            char caracter=informacionNMayuscula[0];
+            int a=0;
+            while(a<=limite){
+                if(caracter>=97&&caracter<=122){
+                    caracter=caracter-32;
+                }
+                informacionNMayuscula[a]=caracter;
+                caracter=informacionNMayuscula[a+1];
+                a++;
+                
+            }
             if(raizIdentificadores==NULL){
                 nuevoNodo=malloc(sizeof(NodoIdentificadores));
                 nuevoNodo->identificador=strdup(informacionNueva);
+                nuevoNodo->identificadorMayuscula=strdup(informacionNMayuscula);
                 nuevoNodo->cantidadIdentificadores=1;
                 nuevoNodo->sig=NULL;
                 nuevoNodo->ant=NULL;
@@ -137,25 +152,26 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
             }else{
                 recorrido=raizIdentificadores;
                 int c=0;
-                c=strcmp(informacionNueva,recorrido->identificador);
-                while(recorrido->sig!=NULL&&strcmp(informacionNueva,recorrido->identificador)>=0){
+                while(recorrido->sig!=NULL&&strcmp(informacionNMayuscula,recorrido->identificadorMayuscula)>=0){
                     recorrido=recorrido->sig;
                 }
                 int b;
-                b=strcmp(informacionNueva,recorrido->identificador);
-                if(b>0){
+                b=strcmp(informacionNMayuscula,recorrido->identificadorMayuscula);
+                if(b>0&&strcmp(informacionNueva,recorrido->identificador)!=0){
                         nuevoNodo=malloc(sizeof(NodoIdentificadores));
                         nuevoNodo->identificador=strdup(informacionNueva);
+                        nuevoNodo->identificadorMayuscula=strdup(informacionNMayuscula);
                         nuevoNodo->cantidadIdentificadores=1;
                         nuevoNodo->sig=recorrido->sig;
                         nuevoNodo->ant=recorrido;
                         recorrido->sig=nuevoNodo;
                     }else{
-                        if(b==0){
-                            (recorrido->cantidadIdentificadores)++;
+                        if(b==0&&strcmp(informacionNueva,recorrido->identificador)==0){
+                            (recorrido->cantidadIdentificadores)++;  
                         }else{
                             nuevoNodo=malloc(sizeof(NodoIdentificadores));
                             nuevoNodo->identificador=strdup(informacionNueva);
+                            nuevoNodo->identificadorMayuscula=strdup(informacionNMayuscula);
                             nuevoNodo->cantidadIdentificadores=1;
                             nuevoNodo->sig=recorrido;
                             if(recorrido->ant==NULL){
