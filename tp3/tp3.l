@@ -382,6 +382,7 @@ PAL_RESERV_CONTROL   [do|while|else|if|for|break|case|default|continue]
 PAL_RESERV_OTROS     [sizeof|return|const|volatile|goto|extern|auto|static]
 CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|"-"|"."|"/"|"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|":"|";"|"<"|"="|">"|"?"|"@"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"\["|"\]"|"^"|"_"|"`"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"| "t"|"u"|"v"|"w"|"x"|"y"|"z"|"\{"|"\}"|"~"]
 CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"|"\-"|"&"|"\*"|"˜"|"\!"|"\/"|"%"|"<<"|">>"|"<"|">"|"<="|">="|"=="|"!="|"ˆ"|"&&"|"||"|"="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|"&="|"ˆ="|"|="|"\?"|":"|"\;"|"..."|","|"#"|"##"|"$"]
+
 %% 
 
 "{CARACTER_IMPRIMIBLE}+" {agregarNodo(1,yytext," ");}
@@ -393,12 +394,13 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}
 0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} 
 [1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} 
-{CARACTER_IMPRIMIBLE} {agregarNodo(7,yytext," ");} 
+'{CARACTER_IMPRIMIBLE}' {agregarNodo(7,yytext," ");} 
 {CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");} 
 ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");} 
 
-{DIGITO_DECIMAL}\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
-{DIGITO_DECIMAL}+\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
+{DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
+{DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
+
 "//"{CARACTER_IMPRIMIBLE}/"\n" {agregarNodo(9,yytext,"linea");} 
 "/\*"{CARACTER_IMPRIMIBLE}*"/\*" {agregarNodo(9,yytext,"multiple linea");}
 %%
