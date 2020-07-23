@@ -14,6 +14,7 @@ int  representacionDigito(char,int);
 //IDENTIFICADORES
 struct nodoIdentificadores {
     char *identificador;
+    char *identificadorNMayuscula;
     int cantidadIdentificadores;
     struct nodoIdentificadores *sig;
     struct nodoIdentificadores *ant;
@@ -144,7 +145,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
             if(raizIdentificadores==NULL){
                 nuevoNodo=malloc(sizeof(NodoIdentificadores));
                 nuevoNodo->identificador=strdup(informacionNueva);
-                nuevoNodo->identificadorMayuscula=strdup(informacionNMayuscula);
+                nuevoNodo->identificadorNMayuscula=strdup(informacionNMayuscula);
                 nuevoNodo->cantidadIdentificadores=1;
                 nuevoNodo->sig=NULL;
                 nuevoNodo->ant=NULL;
@@ -152,15 +153,15 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
             }else{
                 recorrido=raizIdentificadores;
                 int c=0;
-                while(recorrido->sig!=NULL&&strcmp(informacionNMayuscula,recorrido->identificadorMayuscula)>=0){
+                while(recorrido->sig!=NULL&&strcmp(informacionNMayuscula,recorrido->identificadorNMayuscula)>=0){
                     recorrido=recorrido->sig;
                 }
                 int b;
-                b=strcmp(informacionNMayuscula,recorrido->identificadorMayuscula);
+                b=strcmp(informacionNMayuscula,recorrido->identificadorNMayuscula);
                 if(b>0&&strcmp(informacionNueva,recorrido->identificador)!=0){
                         nuevoNodo=malloc(sizeof(NodoIdentificadores));
                         nuevoNodo->identificador=strdup(informacionNueva);
-                        nuevoNodo->identificadorMayuscula=strdup(informacionNMayuscula);
+                        nuevoNodo->identificadorNMayuscula=strdup(informacionNMayuscula);
                         nuevoNodo->cantidadIdentificadores=1;
                         nuevoNodo->sig=recorrido->sig;
                         nuevoNodo->ant=recorrido;
@@ -171,7 +172,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
                         }else{
                             nuevoNodo=malloc(sizeof(NodoIdentificadores));
                             nuevoNodo->identificador=strdup(informacionNueva);
-                            nuevoNodo->identificadorMayuscula=strdup(informacionNMayuscula);
+                            nuevoNodo->identificadorNMayuscula=strdup(informacionNMayuscula);
                             nuevoNodo->cantidadIdentificadores=1;
                             nuevoNodo->sig=recorrido;
                             if(recorrido->ant==NULL){
@@ -389,7 +390,7 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 
 {PAL_RESERV_TIPDATOS} {agregarNodo(2,yytext,"tipo de dato");}
 {PAL_RESERV_CONTROL} {agregarNodo(2,yytext,"de control");}
-{PAL_RESERV_OTROS}  {agregarNodo(2,yytext,"otros");}  s
+{PAL_RESERV_OTROS}  {agregarNodo(2,yytext,"otros");}  
 
 0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}
 0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} 
@@ -405,8 +406,8 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 "/\*"{CARACTER_IMPRIMIBLE}*"/\*" {agregarNodo(9,yytext,"multiple linea");}
 %%
 int main(void) { 
+    
     yylex();
-
     NodoIdentificadores *recorridoI;
     recorridoI=raizIdentificadores;
     while(recorridoI!=NULL){
