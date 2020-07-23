@@ -377,34 +377,30 @@ DIGITO_DECIMAL [0-9]
 DIGITO_OCTAL [0-7] 
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
 LETRA [a-zA-Z] 
-PAL_RESERV_TIPDATOS  ["int"|"float"|"char"|"long"|"double"|"unsigned"|"short"|"struct"|"typedef"|"void"|"signed"|"enum"|"register"|"union"]
-PAL_RESERV_CONTROL   ["do"|"while"|"else"|"if"|"for"|"break"|"case"|"default"|"continue"]
-PAL_RESERV_OTROS     ["sizeof"|"return"|"const"|"volatile"|"goto"|"extern"|"auto"|"static"]
-CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"""|"#"|"$"|"%"|"&"|"'"|"("|")"|"*"|"+"|","|"-"|"."|"/"|"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|":"|";"|"<"|"="|">"|"?"|"@"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"["|"]"|"^"|"_"|"`"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"| "t"|"u"|"v"|"w"|"x"|"y"|"z"|"{"|"}"|"~"]
-CARACTER_PUNTUACION  ["["|"]"|"("|")"|"{"|"}"|"."|"->"|"++"|"+"|"--"|"-"|"&"|"*"|"˜"|"!"|"/"|"%"|"<<"|">>"|"<"|">"|"<="|">="|"=="|"!="|"ˆ"|"&&"|"||"|"="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|"&="|"ˆ="|"|="|"?"|":"|";"|"..."|","|"#"|"##"|"$"]
+PAL_RESERV_TIPDATOS  [int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union]
+PAL_RESERV_CONTROL   [do|while|else|if|for|break|case|default|continue]
+PAL_RESERV_OTROS     [sizeof|return|const|volatile|goto|extern|auto|static]
+CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|"-"|"."|"/"|"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|":"|";"|"<"|"="|">"|"?"|"@"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"\["|"\]"|"^"|"_"|"`"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"| "t"|"u"|"v"|"w"|"x"|"y"|"z"|"\{"|"\}"|"~"]
+CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"|"\-"|"&"|"\*"|"˜"|"\!"|"\/"|"%"|"<<"|">>"|"<"|">"|"<="|">="|"=="|"!="|"ˆ"|"&&"|"||"|"="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|"&="|"ˆ="|"|="|"\?"|":"|"\;"|"..."|","|"#"|"##"|"$"]
 %% 
-({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL}|"_")* {agregarNodo(0,yytext," ");} //IDENTIFICADORES
 
-{CARACTER_IMPRIMIBLE}+ {agregarNodo(1,yytext," ");}//literal cadena
+"{CARACTER_IMPRIMIBLE}+" {agregarNodo(1,yytext," ");}
 
-{PAL_RESERV_TIPDATOS} {agregarNodo(2,yytext,"tipo de dato");} // palabra reserv tipo datos
-{PAL_RESERV_CONTROL} {agregarNodo(2,yytext,"de control");}//palabra reservada estructura de control
-{PAL_RESERV_OTROS}  {agregarNodo(2,yytext,"otros");}   //palabra reservada otros
+{PAL_RESERV_TIPDATOS} {agregarNodo(2,yytext,"tipo de dato");}
+{PAL_RESERV_CONTROL} {agregarNodo(2,yytext,"de control");}
+{PAL_RESERV_OTROS}  {agregarNodo(2,yytext,"otros");}  s
 
-0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}   //OCTAL
-0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} //HEXA
-[1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} //DECIMAL
-{DIGITO_DECIMAL}*.{DIGITO_DECIMAL}+([Ee](+|-)?{DIGITO_DECIMAL}*)? {agregarNodo(6,yytext,"");} //real
-{DIGITO_DECIMAL}.([Ee](+|-)?{DIGITO_DECIMAL}*)? {agregarNodo(6,yytext,""");} //real
+0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}
+0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} 
+[1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} 
+{CARACTER_IMPRIMIBLE} {agregarNodo(7,yytext," ");} 
+{CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");} 
+({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");} 
 
-
-{CARACTER_IMPRIMIBLE} {agregarNodo(7,yytext," ");} //CARACTER
-
-{CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");}   //operadores de puntuacion
-
-"//"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"linea");}  //comentarios
-\/\*{CARACTER_IMPRIMIBLE}*/\*\/ {agregarNodo(9,yytext,"multiple linea");}
-
+{DIGITO_DECIMAL}\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
+{DIGITO_DECIMAL}+\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
+"//"{CARACTER_IMPRIMIBLE}/"\n" {agregarNodo(9,yytext,"linea");} 
+"/\*"{CARACTER_IMPRIMIBLE}*"/\*" {agregarNodo(9,yytext,"multiple linea");}
 %%
 int main(void) { 
     yylex();
