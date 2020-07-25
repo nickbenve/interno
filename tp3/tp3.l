@@ -366,16 +366,16 @@ int representacionDigito(char digito,int base)
             default:
                  if(digito>=48&&digito<=57){  
                  return digito-48;
+                 break; 
                  }
                  else{
                   return 0;
+                  break; 
                  }
                  
         }
     }else{
-        if(base==8){
-        return digito-48;
-        }
+            return digito-48;
     }
 } 
 
