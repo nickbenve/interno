@@ -364,10 +364,18 @@ int representacionDigito(char digito,int base)
                  return 15;
                  break;    
             default:
+                 if(digito>=48&&digito<=57){  
                  return digito-48;
+                 }
+                 else{
+                  return 0;
+                 }
+                 
         }
     }else{
+        if(base==8){
         return digito-48;
+        }
     }
 } 
 
