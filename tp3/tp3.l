@@ -394,24 +394,24 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 
 %% 
 
-"{CARACTER_IMPRIMIBLE}+" {agregarNodo(1,yytext," ");}
 
-{PAL_RESERV_TIPDATOS} {agregarNodo(2,yytext,"tipo de dato");}
-{PAL_RESERV_CONTROL} {agregarNodo(2,yytext,"de control");}
-{PAL_RESERV_OTROS}  {agregarNodo(2,yytext,"otros");}  
+"\""{CARACTER_IMPRIMIBLE}+"\"" {agregarNodo(1,yytext," ");}
 
-0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}
-0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} 
-[1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} 
-'{CARACTER_IMPRIMIBLE}' {agregarNodo(7,yytext," ");} 
-{CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");} 
-({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");} 
+ 0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}
+ 0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} 
+ [1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} 
+ "\'"{CARACTER_IMPRIMIBLE}"\'" {agregarNodo(7,yytext," ");} 
+ {CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");} 
+ (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {agregarNodo(2,yytext,"tipo de dato");}
+ (do|while|else|if|for|break|case|default|continue) {agregarNodo(2,yytext,"de control");}
+ (sizeof|return|const|volatile|goto|extern|auto|static)  {agregarNodo(2,yytext,"otros");}  
+ ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");} 
 
-{DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
-{DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
+ {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
+ {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
 
-"//"{CARACTER_IMPRIMIBLE}/"\n" {agregarNodo(9,yytext,"linea");} 
-"/\*"{CARACTER_IMPRIMIBLE}*"/\*" {agregarNodo(9,yytext,"multiple linea");}
+ "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"linea");} 
+ "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple linea");}
 %%
 int main(void) { 
     
