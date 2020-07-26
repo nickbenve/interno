@@ -497,6 +497,7 @@ int main(void) {
        printf(" es de tipo %s \n",recorridoComen->tipo);
        recorridoComen=recorridoComen->sig;
     }
+    system("pause");
     return 0;
 } 
 
