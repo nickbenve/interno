@@ -415,7 +415,7 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 %%
 int main(void) { 
     
-    yyin("archivo.c","r");
+    yyin=fopen("archivo.c","r");
     yylex();
     NodoIdentificadores *recorridoI;
     recorridoI=raizIdentificadores;
