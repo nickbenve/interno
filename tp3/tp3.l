@@ -412,6 +412,7 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 
  "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"simple");} 
  "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");}
+ . {agregarNodo(10,yytext,"");}
 %%
 int main(void) { 
     
@@ -419,6 +420,8 @@ int main(void) {
     yylex();
     NodoIdentificadores *recorridoI;
     recorridoI=raizIdentificadores;
+    printf("              REPORTE TOKENS DENTRO DE ARCHIVO archivo.c\n");
+    printf("................................................................\n");
     while(recorridoI!=NULL){
        printf("el identificador llamado %s ",recorridoI->identificador);
        printf("aparece %d vez/veces.\n",recorridoI->cantidadIdentificadores);
