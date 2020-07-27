@@ -502,7 +502,7 @@ int main(void) {
     recorridoComen=raizComentario;
     while(recorridoComen!=NULL){
         int largo,i,recorrido=0;
-        largo=strlen(palabra);
+        largo=strlen(recorridoComen->comentario);
         char copia[largo+1];
         strcpy(copia,recorridoComen->comentario);
         while(copia[recorrido]!='\0'){
