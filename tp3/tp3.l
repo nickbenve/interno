@@ -507,29 +507,35 @@ int main(void) {
     NodoComentario *recorridoComen;
     recorridoComen=raizComentario;
     while(recorridoComen!=NULL){
-       if(strcmp("simple",recorridoComen->tipo)==0){
-            printf("el comentario %s",recorridoComen->comentario+2);
-            printf(" es de tipo %s \n",recorridoComen->tipo);
-       }else{
+      if(strcmp("simple",recorridoComen->tipo)==0){
+           printf("el comentario %s",recorridoComen->comentario+2);
+           printf(" es de tipo %s \n",recorridoComen->tipo);
+      }else{
            int largo,i,recorrido=0;
-            largo=strlen(recorridoComen->comentario);
-            char copia[largo+1];
-            strcpy(copia,recorridoComen->comentario);
-            while(copia[recorrido]!='\0'){
-                if(copia[recorrido]=='\n'){
-                    for(i=recorrido;i<largo;i++){
-                        copia[i]=copia[i+1];
-                    }
-                largo--;
-                }
-                recorrido++;
+           largo=strlen(recorridoComen->comentario);
+           char copia[largo+1];
+           strcpy(copia,recorridoComen->comentario);
+           while(copia[recorrido]!='\0'){
+               if(copia[recorrido]=='\n'){
+                   for(i=recorrido;i<largo;i++){
+                       copia[i]=copia[i+1];
+                   }
+                   largo--;
+               }
+               recorrido++;
             }  
-            printf("el comentario %s",copia);
+            int largoCopia=strlen(copia);
+            int j;
+            for(j=0;j<=largoCopia;j++){
+                if(j==largoCopia-2){
+                    copia[j]='\0';
+                }
+            }
+            printf("el comentario %s",copia+2);
             printf(" es de tipo %s \n",recorridoComen->tipo);
        }       
         recorridoComen=recorridoComen->sig;
     }
-    
     
     
     
