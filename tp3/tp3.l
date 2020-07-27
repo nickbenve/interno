@@ -402,8 +402,8 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
  [1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} 
  "\'"{CARACTER_IMPRIMIBLE}"\'" {agregarNodo(7,yytext," ");} 
  {CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");} 
- (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {agregarNodo(2,yytext,"tipo de dato");}
- (do|while|else|if|for|break|case|default|continue) {agregarNodo(2,yytext,"de control");}
+ (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {agregarNodo(2,yytext,"de dato");}
+ (do|while|else|if|for|break|case|default|continue) {agregarNodo(2,yytext," de control");}
  (sizeof|return|const|volatile|goto|extern|auto|static)  {agregarNodo(2,yytext,"otros");}  
  ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");} 
 
@@ -466,8 +466,9 @@ int main(void) {
        recorridoD=recorridoD->sig;
        total+=recorridoD->decimal;
     }
-    printf("La suma total de los decimales es %d \n",total);
-    
+    if(recorridoD!=NULL){
+        printf("La suma total de los decimales es %d \n",total);
+    }
     NodoConstanteReal *recorridoR;
     recorridoR=raizConstanteReal;
     while(recorridoR!=NULL){
@@ -478,9 +479,9 @@ int main(void) {
     
     NodoConstanteCaracter *recorridoC;
     recorridoC=raizConstanteCaracter;
-    int enumeraracion=1;
+    int enumeracion=1;
     while(recorridoC!=NULL){
-      printf("%s)",enumeracion);
+      printf("%i aaaaaa",enumeracion);
       printf(" El caracter %s.\n",recorridoC->caracter);
       enumeracion++;
       recorridoC=recorridoC->sig;    
@@ -495,15 +496,6 @@ int main(void) {
        recorridoCP=recorridoCP->sig;
     }
 
-    NodoComentario *recorridoComen;
-    recorridoComen=raizComentario;
-    while(recorridoComen!=NULL){
-       
-       printf("el comentario %s",recorridoComen->comentario);
-       printf(" es de tipo %s \n",recorridoComen->tipo);
-       recorridoComen=recorridoComen->sig;
-    }
-    -----------------------------
     NodoComentario *recorridoComen;
     recorridoComen=raizComentario;
     while(recorridoComen!=NULL){
