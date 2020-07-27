@@ -421,7 +421,7 @@ int main(void) {
     recorridoI=raizIdentificadores;
     while(recorridoI!=NULL){
        printf("el identificador llamado %s ",recorridoI->identificador);
-       printf("aparece %d veces.\n",recorridoI->cantidadIdentificadores);
+       printf("aparece %d vez/veces.\n",recorridoI->cantidadIdentificadores);
 
        recorridoI=recorridoI->sig;
     }
