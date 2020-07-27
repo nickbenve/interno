@@ -410,8 +410,8 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
  {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
  {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
 
- "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"linea");} 
- "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple linea");}
+ "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"simple");} 
+ "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");}
 %%
 int main(void) { 
     
@@ -425,6 +425,9 @@ int main(void) {
 
        recorridoI=recorridoI->sig;
     }
+    if(raizLiteralCadena!=NULL){
+        printf("................................................................\n");
+    }
 
     NodoLiteralCadena *recorridoLC;
     recorridoLC=raizLiteralCadena;
@@ -434,6 +437,10 @@ int main(void) {
        recorridoLC=recorridoLC->sig;
     }
     
+    if(raizPalabrasReservadas!=NULL){
+        printf("................................................................\n");
+    }
+
     NodoPalabrasReservadas *recorridoPR;
     recorridoPR=raizPalabrasReservadas;
     while(recorridoPR!=NULL){
@@ -441,7 +448,9 @@ int main(void) {
        printf(" es del tipo  %s. \n",recorridoPR->tipo);
        recorridoPR=recorridoPR->sig;
     }
-    
+    if(raizConstanteOctal!=NULL){
+        printf("................................................................\n");
+    }
     NodoConstanteOctal *recorridoCO;
     recorridoCO=raizConstanteOctal;
     while(recorridoCO!=NULL){
@@ -449,7 +458,9 @@ int main(void) {
        printf(" equivale %d en decimal.\n",recorridoCO->decimal);
        recorridoCO=recorridoCO->sig;
     }
-    
+    if(raizConstanteHexa!=NULL){
+        printf("................................................................\n");
+    }
     NodoConstanteHexa *recorridoCH;
     recorridoCH=raizConstanteHexa;
     while(recorridoCH!=NULL){
@@ -457,18 +468,25 @@ int main(void) {
        printf(" equivale %d en decimal. \n",recorridoCH->decimal);
        recorridoCH=recorridoCH->sig;
     }
-    
+    if(raizConstanteDecimal!=NULL){
+        printf("................................................................\n");
+    }
     NodoConstanteDecimal *recorridoD;
     recorridoD=raizConstanteDecimal;
     int total=0;
     while(recorridoD!=NULL){
        printf("Se encuentra el decimal %d. \n",recorridoD->decimal);
+       total=total+recorridoD->decimal;
        recorridoD=recorridoD->sig;
-       total+=recorridoD->decimal;
+
     }
-    if(recorridoD!=NULL){
-        printf("La suma total de los decimales es %d \n",total);
+    if(raizConstanteDecimal!=NULL){
+        printf("Sumando un total de %d. \n",total);
     }
+    if(raizConstanteReal!=NULL){
+        printf("................................................................\n");
+    }
+
     NodoConstanteReal *recorridoR;
     recorridoR=raizConstanteReal;
     while(recorridoR!=NULL){
@@ -476,7 +494,9 @@ int main(void) {
        printf(" con mantiza %f. \n",recorridoR->mantiza);
        recorridoR=recorridoR->sig;
     }
-    
+    if(raizConstanteCaracter!=NULL){
+        printf("................................................................\n");
+    }
     NodoConstanteCaracter *recorridoC;
     recorridoC=raizConstanteCaracter;
     int enumeracion=1;
@@ -486,7 +506,9 @@ int main(void) {
       enumeracion++;
       recorridoC=recorridoC->sig;    
     }
-     
+    if(raizOperOCaractPunt!=NULL){
+        printf("................................................................\n");
+    }
     NodoOperOCaractPunt *recorridoCP;
     recorridoCP=raizOperOCaractPunt;
     while(recorridoCP!=NULL){
@@ -495,12 +517,14 @@ int main(void) {
 
        recorridoCP=recorridoCP->sig;
     }
-
+    if(raizComentario!=NULL){
+        printf("................................................................\n");
+    }
     NodoComentario *recorridoComen;
     recorridoComen=raizComentario;
     while(recorridoComen!=NULL){
       if(strcmp("simple",recorridoComen->tipo)==0){
-           printf("el comentario %s",recorridoComen->comentario+2);
+           printf("El comentario %s",recorridoComen->comentario+2);
            printf(" es de tipo %s \n",recorridoComen->tipo);
       }else{
            int largo,i,recorrido=0;
@@ -523,12 +547,12 @@ int main(void) {
                     copia[j]='\0';
                 }
             }
-            printf("el comentario %s",copia+2);
-            printf(" es de tipo %s \n",recorridoComen->tipo);
+            printf("El comentario %s.",copia+2);
+            printf(" es de tipo %s. \n",recorridoComen->tipo);
        }       
         recorridoComen=recorridoComen->sig;
     }
-    
+    printf("................................................................\n");
     
     
     system("pause");
