@@ -11,6 +11,10 @@ void agregarNodo(int ,char*,char*);
 long conversorADecimal(char*,int);
 int  representacionDigito(char,int);
 
+
+
+
+int cantidadDeLineas=0;
 //IDENTIFICADORES
 struct nodoIdentificadores {
     char *identificador;
@@ -317,6 +321,18 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
            }
           fondoComentario=nuevoNodo;
 
+    }else{
+         NodoNoReconocidos *nuevoNodo;
+         nuevoNodo=malloc(sizeof(struct nodoNoReconocidos));
+         nuevoNodo->noReconocido=strdup(informacionNueva);
+         nuevoNodo->linea=cantidadDeLineas;
+         nuevoNodo->sig=NULL;
+         if(raizNoReconocidos==NULL){
+               raizNoReconocidos=nuevoNodo;
+         }else{
+               fondoNoReconocidos->sig=nuevoNodo;
+         }
+         fondoNoReconocidos=nuevoNodo;
     }
 }
 
@@ -380,6 +396,18 @@ int representacionDigito(char digito,int base)
 } 
 
 
+void cuentaSaltos(char* palabra){    
+    int largo=strlen(palabra);
+    char copia[largo+1];
+    strcpy(copia,palabra);
+    int i;
+    for(i=0;i<=largo;i++){
+        if(copia[i]=='\n'){
+            cantidadDeLineas++;
+        }
+    }
+}
+
 %}
 
 DIGITO_DECIMAL [0-9]    
@@ -395,24 +423,24 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 %% 
 
 
-"\""{CARACTER_IMPRIMIBLE}+"\"" {agregarNodo(1,yytext," ");}
+"\""{CARACTER_IMPRIMIBLE}+"\"" {agregarNodo(1,yytext," ");cuentaSaltos(yytext);}
 
- 0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}
- 0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} 
- [1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} 
- "\'"{CARACTER_IMPRIMIBLE}"\'" {agregarNodo(7,yytext," ");} 
- {CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");} 
- (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {agregarNodo(2,yytext,"de dato");}
- (do|while|else|if|for|break|case|default|continue) {agregarNodo(2,yytext," de control");}
- (sizeof|return|const|volatile|goto|extern|auto|static)  {agregarNodo(2,yytext,"otros");}  
- ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");} 
+ 0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");cuentaSaltos(yytext);}
+ 0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");cuentaSaltos(yytext);} 
+ [1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");cuentaSaltos(yytext);} 
+ "\'"{CARACTER_IMPRIMIBLE}"\'" {agregarNodo(7,yytext," ");cuentaSaltos(yytext);} 
+ {CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");cuentaSaltos(yytext);} 
+ (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {agregarNodo(2,yytext,"de dato");cuentaSaltos(yytext);}
+ (do|while|else|if|for|break|case|default|continue) {agregarNodo(2,yytext," de control");cuentaSaltos(yytext);}
+ (sizeof|return|const|volatile|goto|extern|auto|static)  {agregarNodo(2,yytext,"otros");cuentaSaltos(yytext);}  
+ ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");cuentaSaltos(yytext);} 
 
- {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
- {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
+ {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");cuentaSaltos(yytext);} 
+ {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");cuentaSaltos(yytext);}
 
- "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"simple");} 
- "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");}
- . {agregarNodo(10,yytext,"");}
+ "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"simple");cuentaSaltos(yytext);} 
+ "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");cuentaSaltos(yytext);}
+ . {agregarNodo(10,yytext,"");cuentaSaltos(yytext);}
 %%
 int main(void) { 
     
@@ -556,7 +584,20 @@ int main(void) {
         recorridoComen=recorridoComen->sig;
     }
     printf("................................................................\n");
-    
+   /*
+    NodoNoReconocidos *recorridoNR;
+    recorridoNR=raizNoReconocidos;
+    while(recorridoNR!=NULL){
+       printf("El cadenas y/o caracteres no reconocidos %s ",recorridoNR->noReconocido);
+       printf("aparece en la linea %d.\n",recorridoNR->linea);
+
+       recorridoNR=recorridoNR->sig;
+    }
+    if(raizNoReconocidos!=NULL){
+        printf("................................................................\n");
+    }
+    */
+
     
     system("pause");
     return 0;

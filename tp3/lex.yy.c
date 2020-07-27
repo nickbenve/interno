@@ -489,6 +489,10 @@ void agregarNodo(int ,char*,char*);
 long conversorADecimal(char*,int);
 int  representacionDigito(char,int);
 
+
+
+
+int cantidadDeLineas=0;
 //IDENTIFICADORES
 struct nodoIdentificadores {
     char *identificador;
@@ -795,6 +799,18 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
            }
           fondoComentario=nuevoNodo;
 
+    }else{
+         NodoNoReconocidos *nuevoNodo;
+         nuevoNodo=malloc(sizeof(struct nodoNoReconocidos));
+         nuevoNodo->noReconocido=strdup(informacionNueva);
+         nuevoNodo->linea=cantidadDeLineas;
+         nuevoNodo->sig=NULL;
+         if(raizNoReconocidos==NULL){
+               raizNoReconocidos=nuevoNodo;
+         }else{
+               fondoNoReconocidos->sig=nuevoNodo;
+         }
+         fondoNoReconocidos=nuevoNodo;
     }
 }
 
@@ -858,7 +874,19 @@ int representacionDigito(char digito,int base)
 } 
 
 
-#line 862 "lex.yy.c"
+void cuentaSaltos(char* palabra){    
+    int largo=strlen(palabra);
+    char copia[largo+1];
+    strcpy(copia,palabra);
+    int i;
+    for(i=0;i<=largo;i++){
+        if(copia[i]=='\n'){
+            cantidadDeLineas++;
+        }
+    }
+}
+
+#line 890 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -1009,11 +1037,11 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 395 "tp3.l"
+#line 423 "tp3.l"
 
 
 
-#line 1017 "lex.yy.c"
+#line 1045 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -1098,88 +1126,88 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 398 "tp3.l"
-{agregarNodo(1,yytext," ");}
+#line 426 "tp3.l"
+{agregarNodo(1,yytext," ");cuentaSaltos(yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 400 "tp3.l"
-{agregarNodo(3,yytext,"");}
+#line 428 "tp3.l"
+{agregarNodo(3,yytext,"");cuentaSaltos(yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 401 "tp3.l"
-{agregarNodo(4,yytext,"");} 
+#line 429 "tp3.l"
+{agregarNodo(4,yytext,"");cuentaSaltos(yytext);} 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 402 "tp3.l"
-{agregarNodo(5,yytext,"");} 
+#line 430 "tp3.l"
+{agregarNodo(5,yytext,"");cuentaSaltos(yytext);} 
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 403 "tp3.l"
-{agregarNodo(7,yytext," ");} 
+#line 431 "tp3.l"
+{agregarNodo(7,yytext," ");cuentaSaltos(yytext);} 
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 404 "tp3.l"
-{agregarNodo(8,yytext," ");} 
+#line 432 "tp3.l"
+{agregarNodo(8,yytext," ");cuentaSaltos(yytext);} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 405 "tp3.l"
-{agregarNodo(2,yytext,"de dato");}
+#line 433 "tp3.l"
+{agregarNodo(2,yytext,"de dato");cuentaSaltos(yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 406 "tp3.l"
-{agregarNodo(2,yytext," de control");}
+#line 434 "tp3.l"
+{agregarNodo(2,yytext," de control");cuentaSaltos(yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 407 "tp3.l"
-{agregarNodo(2,yytext,"otros");}  
+#line 435 "tp3.l"
+{agregarNodo(2,yytext,"otros");cuentaSaltos(yytext);}  
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 408 "tp3.l"
-{agregarNodo(0,yytext," ");} 
+#line 436 "tp3.l"
+{agregarNodo(0,yytext," ");cuentaSaltos(yytext);} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 410 "tp3.l"
-{agregarNodo(6,yytext,"");} 
+#line 438 "tp3.l"
+{agregarNodo(6,yytext,"");cuentaSaltos(yytext);} 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 411 "tp3.l"
-{agregarNodo(6,yytext,"");}
+#line 439 "tp3.l"
+{agregarNodo(6,yytext,"");cuentaSaltos(yytext);}
 	YY_BREAK
 case 13:
 *yy_cp = yy_hold_char; /* undo effects of setting up yytext */
 yy_c_buf_p = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 413 "tp3.l"
-{agregarNodo(9,yytext,"simple");} 
+#line 441 "tp3.l"
+{agregarNodo(9,yytext,"simple");cuentaSaltos(yytext);} 
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 414 "tp3.l"
-{agregarNodo(9,yytext,"multiple");}
+#line 442 "tp3.l"
+{agregarNodo(9,yytext,"multiple");cuentaSaltos(yytext);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 415 "tp3.l"
-{agregarNodo(10,yytext,"");}
+#line 443 "tp3.l"
+{agregarNodo(10,yytext,"");cuentaSaltos(yytext);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 416 "tp3.l"
+#line 444 "tp3.l"
 ECHO;
 	YY_BREAK
-#line 1183 "lex.yy.c"
+#line 1211 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2065,7 +2093,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 416 "tp3.l"
+#line 444 "tp3.l"
 
 int main(void) { 
     
@@ -2209,7 +2237,20 @@ int main(void) {
         recorridoComen=recorridoComen->sig;
     }
     printf("................................................................\n");
-    
+   /*
+    NodoNoReconocidos *recorridoNR;
+    recorridoNR=raizNoReconocidos;
+    while(recorridoNR!=NULL){
+       printf("El cadenas y/o caracteres no reconocidos %s ",recorridoNR->noReconocido);
+       printf("aparece en la linea %d.\n",recorridoNR->linea);
+
+       recorridoNR=recorridoNR->sig;
+    }
+    if(raizNoReconocidos!=NULL){
+        printf("................................................................\n");
+    }
+    */
+
     
     system("pause");
     return 0;
