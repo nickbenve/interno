@@ -420,8 +420,8 @@ int main(void) {
     NodoIdentificadores *recorridoI;
     recorridoI=raizIdentificadores;
     while(recorridoI!=NULL){
-       printf("el identificador %s ",recorridoI->identificador);
-       printf("aparece estas veces: %d \n",recorridoI->cantidadIdentificadores);
+       printf("el identificador llamado %s ",recorridoI->identificador);
+       printf("aparece %d veces.\n",recorridoI->cantidadIdentificadores);
 
        recorridoI=recorridoI->sig;
     }
@@ -430,7 +430,7 @@ int main(void) {
     recorridoLC=raizLiteralCadena;
     while(recorridoLC!=NULL){
        printf("el literal cadena %s",recorridoLC->literalCadena);
-       printf(" tiene un largo de %d \n",recorridoLC->longitud);
+       printf(" tiene un largo de %d. \n",recorridoLC->longitud);
        recorridoLC=recorridoLC->sig;
     }
     
@@ -438,7 +438,7 @@ int main(void) {
     recorridoPR=raizPalabrasReservadas;
     while(recorridoPR!=NULL){
        printf("La palabra reservada %s",recorridoPR->palabraReservada);
-       printf(" tiene un tipo  %s \n",recorridoPR->tipo);
+       printf(" es del tipo  %s. \n",recorridoPR->tipo);
        recorridoPR=recorridoPR->sig;
     }
     
@@ -446,7 +446,7 @@ int main(void) {
     recorridoCO=raizConstanteOctal;
     while(recorridoCO!=NULL){
        printf("La constante octal %s",recorridoCO->datoEnOctal);
-       printf(" vale en decimal  %d \n",recorridoCO->decimal);
+       printf(" equivale %d en decimal.\n",recorridoCO->decimal);
        recorridoCO=recorridoCO->sig;
     }
     
@@ -454,37 +454,43 @@ int main(void) {
     recorridoCH=raizConstanteHexa;
     while(recorridoCH!=NULL){
        printf("La constante hexa %s",recorridoCH->datoEnHexa);
-       printf(" vale en decimal  %d \n",recorridoCH->decimal);
+       printf(" equivale %d en decimal. \n",recorridoCH->decimal);
        recorridoCH=recorridoCH->sig;
     }
     
     NodoConstanteDecimal *recorridoD;
     recorridoD=raizConstanteDecimal;
+    int total=0;
     while(recorridoD!=NULL){
-       printf(" decimal  %d \n",recorridoD->decimal);
+       printf("Se encuentra el decimal %d. \n",recorridoD->decimal);
        recorridoD=recorridoD->sig;
+       total+=recorridoD->decimal;
     }
+    printf("La suma total de los decimales es %d \n",total);
     
     NodoConstanteReal *recorridoR;
     recorridoR=raizConstanteReal;
     while(recorridoR!=NULL){
-       printf("el valor entero %d ",recorridoR->parteEntera);
-       printf(" con mantiza %f \n",recorridoR->mantiza);
+       printf("El valor entero %d ",recorridoR->parteEntera);
+       printf(" con mantiza %f. \n",recorridoR->mantiza);
        recorridoR=recorridoR->sig;
     }
     
     NodoConstanteCaracter *recorridoC;
     recorridoC=raizConstanteCaracter;
+    int enumeraracion=1;
     while(recorridoC!=NULL){
-       printf("el caracter %s \n",recorridoC->caracter);
-       recorridoC=recorridoC->sig;
+      printf("%s)",enumeracion);
+      printf(" El caracter %s.\n",recorridoC->caracter);
+      enumeracion++;
+      recorridoC=recorridoC->sig;    
     }
-    
+     
     NodoOperOCaractPunt *recorridoCP;
     recorridoCP=raizOperOCaractPunt;
     while(recorridoCP!=NULL){
-       printf("el caracter de ope o punt %s ",recorridoCP->caracter);
-       printf("aparece estas veces: %d \n",recorridoCP->cantidadOperOCaractPunt);
+       printf("El caracter de operacion o puntutacion %s ",recorridoCP->caracter);
+       printf("aparece %d veces.\n",recorridoCP->cantidadOperOCaractPunt);
 
        recorridoCP=recorridoCP->sig;
     }
@@ -501,21 +507,26 @@ int main(void) {
     NodoComentario *recorridoComen;
     recorridoComen=raizComentario;
     while(recorridoComen!=NULL){
-        int largo,i,recorrido=0;
-        largo=strlen(recorridoComen->comentario);
-        char copia[largo+1];
-        strcpy(copia,recorridoComen->comentario);
-        while(copia[recorrido]!='\0'){
-            if(copia[recorrido]=='\n'){
-                for(i=recorrido;i<largo;i++){
-                    copia[i]=copia[i+1];
+       if(strcmp("simple",recorridoComen->tipo)==0){
+            printf("el comentario %s",recorridoComen->comentario+2);
+            printf(" es de tipo %s \n",recorridoComen->tipo);
+       }else{
+           int largo,i,recorrido=0;
+            largo=strlen(recorridoComen->comentario);
+            char copia[largo+1];
+            strcpy(copia,recorridoComen->comentario);
+            while(copia[recorrido]!='\0'){
+                if(copia[recorrido]=='\n'){
+                    for(i=recorrido;i<largo;i++){
+                        copia[i]=copia[i+1];
+                    }
+                largo--;
                 }
-            largo--;
-            }
-            recorrido++;
-        }  
-        printf("el comentario %s",copia);
-        printf(" es de tipo %s \n",recorridoComen->tipo);
+                recorrido++;
+            }  
+            printf("el comentario %s",copia);
+            printf(" es de tipo %s \n",recorridoComen->tipo);
+       }       
         recorridoComen=recorridoComen->sig;
     }
     
