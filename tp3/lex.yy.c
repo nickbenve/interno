@@ -2203,7 +2203,7 @@ int main(void) {
                     copia[j]='\0';
                 }
             }
-            printf("El comentario %s.",copia+2);
+            printf("El comentario %s",copia+2);
             printf(" es de tipo %s. \n",recorridoComen->tipo);
        }       
         recorridoComen=recorridoComen->sig;
