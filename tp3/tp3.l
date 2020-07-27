@@ -440,7 +440,7 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 
  "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"simple");cuentaSaltos(yytext);} 
  "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");cuentaSaltos(yytext);}
- . {agregarNodo(10,yytext,"");cuentaSaltos(yytext);}
+ /*. {agregarNodo(10,yytext,"");cuentaSaltos(yytext);}*/
 %%
 int main(void) { 
     
