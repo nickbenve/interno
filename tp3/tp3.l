@@ -532,7 +532,7 @@ int main(void) {
     recorridoC=raizConstanteCaracter;
     int enumeracion=1;
     while(recorridoC!=NULL){
-      printf("%i-",enumeracion);
+      printf("%i)",enumeracion);
       printf(" El caracter %s.\n",recorridoC->caracter);
       enumeracion++;
       recorridoC=recorridoC->sig;    
