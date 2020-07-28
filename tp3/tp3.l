@@ -14,7 +14,6 @@ int  representacionDigito(char,int);
 
 
 
-int cantidadDeLineas=0;
 //IDENTIFICADORES
 struct nodoIdentificadores {
     char *identificador;
@@ -321,18 +320,6 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
            }
           fondoComentario=nuevoNodo;
 
-    }else{
-         NodoNoReconocidos *nuevoNodo;
-         nuevoNodo=malloc(sizeof(struct nodoNoReconocidos));
-         nuevoNodo->noReconocido=strdup(informacionNueva);
-         nuevoNodo->linea=cantidadDeLineas;
-         nuevoNodo->sig=NULL;
-         if(raizNoReconocidos==NULL){
-               raizNoReconocidos=nuevoNodo;
-         }else{
-               fondoNoReconocidos->sig=nuevoNodo;
-         }
-         fondoNoReconocidos=nuevoNodo;
     }
 }
 
@@ -350,8 +337,8 @@ long conversorADecimal(char* informacionNueva,int base){
    return repredecimal;
 }
 
-int representacionDigito(char digito,int base)
-{
+int representacionDigito(char digito,int base){
+
     if(base==16)
     {   
         switch(digito)
@@ -396,17 +383,7 @@ int representacionDigito(char digito,int base)
 } 
 
 
-void cuentaSaltos(char* palabra){    
-    int largo=strlen(palabra);
-    char copia[largo+1];
-    strcpy(copia,palabra);
-    int i;
-    for(i=0;i<=largo;i++){
-        if(copia[i]=='\n'){
-            cantidadDeLineas++;
-        }
-    }
-}
+
 
 %}
 
@@ -422,25 +399,23 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
 
 %% 
 
+"\""{CARACTER_IMPRIMIBLE}+"\"" {agregarNodo(1,yytext," ");}
 
-"\""{CARACTER_IMPRIMIBLE}+"\"" {agregarNodo(1,yytext," ");cuentaSaltos(yytext);}
+ 0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");}
+ 0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");} 
+ [1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");} 
+ "\'"{CARACTER_IMPRIMIBLE}"\'" {agregarNodo(7,yytext," ");} 
+ {CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");} 
+ (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {agregarNodo(2,yytext,"de dato");}
+ (do|while|else|if|for|break|case|default|continue) {agregarNodo(2,yytext," de control");}
+ (sizeof|return|const|volatile|goto|extern|auto|static)  {agregarNodo(2,yytext,"otros");}  
+ ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");} 
+ {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
+ {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
 
- 0{DIGITO_OCTAL}* {agregarNodo(3,yytext,"");cuentaSaltos(yytext);}
- 0[xX]{DIGITO_HEXADECIMAL}+ {agregarNodo(4,yytext,"");cuentaSaltos(yytext);} 
- [1-9]{DIGITO_DECIMAL}* {agregarNodo(5,yytext,"");cuentaSaltos(yytext);} 
- "\'"{CARACTER_IMPRIMIBLE}"\'" {agregarNodo(7,yytext," ");cuentaSaltos(yytext);} 
- {CARACTER_PUNTUACION} {agregarNodo(8,yytext," ");cuentaSaltos(yytext);} 
- (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {agregarNodo(2,yytext,"de dato");cuentaSaltos(yytext);}
- (do|while|else|if|for|break|case|default|continue) {agregarNodo(2,yytext," de control");cuentaSaltos(yytext);}
- (sizeof|return|const|volatile|goto|extern|auto|static)  {agregarNodo(2,yytext,"otros");cuentaSaltos(yytext);}  
- ({LETRA}|"_")({LETRA}|{DIGITO_DECIMAL})* {agregarNodo(0,yytext," ");cuentaSaltos(yytext);} 
-
- {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");cuentaSaltos(yytext);} 
- {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");cuentaSaltos(yytext);}
-
- "\/\/"{CARACTER_IMPRIMIBLE}*/"\n" {agregarNodo(9,yytext,"simple");cuentaSaltos(yytext);} 
- "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");cuentaSaltos(yytext);}
- /*. {agregarNodo(10,yytext,"");cuentaSaltos(yytext);}*/
+ "\/\/"{CARACTER_IMPRIMIBLE}*"\n" {agregarNodo(9,yytext,"simple");} 
+ "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");}
+ \n {;}
 %%
 int main(void) { 
     
@@ -509,7 +484,6 @@ int main(void) {
        printf("Se encuentra el decimal %d. \n",recorridoD->decimal);
        total=total+recorridoD->decimal;
        recorridoD=recorridoD->sig;
-
     }
     if(raizConstanteDecimal!=NULL){
         printf("Sumando un total de %d. \n",total);
@@ -555,7 +529,12 @@ int main(void) {
     recorridoComen=raizComentario;
     while(recorridoComen!=NULL){
       if(strcmp("simple",recorridoComen->tipo)==0){
-           printf("El comentario %s",recorridoComen->comentario+2);
+           int largo;
+           largo=strlen(recorridoComen->comentario);
+           char copia[largo];
+           strcpy(copia,recorridoComen->comentario);
+           copia[largo-1]='\0';
+           printf("El comentario %s",copia);
            printf(" es de tipo %s \n",recorridoComen->tipo);
       }else{
            int largo,i,recorrido=0;
