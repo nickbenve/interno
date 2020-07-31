@@ -289,7 +289,7 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 #define YY_END_OF_BUFFER 17
 static yyconst short int yy_accept[150] =
     {   0,
-        0,    0,   17,   15,   16,    6,    6,    6,    6,    6,
+        0,    0,   17,   16,   15,    6,    6,    6,    6,    6,
         2,    4,   10,   10,   10,   10,   10,   10,   10,   10,
        10,   10,   10,   10,   10,   10,   10,   10,    0,    0,
        11,    0,    0,   12,    2,    0,    0,    4,   10,   10,
@@ -492,7 +492,6 @@ int  representacionDigito(char,int);
 
 
 
-int cantidadDeLineas=0;
 //IDENTIFICADORES
 struct nodoIdentificadores {
     char *identificador;
@@ -611,7 +610,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
     if(categoria==0){  //IDENTIFICADORES
              NodoIdentificadores *nuevoNodo,*recorrido;
             char informacionNMayuscula[strlen(informacionNueva)];
-            int limite=sizeof(informacionNMayuscula);
+            int limite=strlen(informacionNMayuscula)- 1;
             strcpy(informacionNMayuscula,informacionNueva);
             char caracter=informacionNMayuscula[0];
             int a=0;
@@ -799,18 +798,6 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
            }
           fondoComentario=nuevoNodo;
 
-    }else{
-         NodoNoReconocidos *nuevoNodo;
-         nuevoNodo=malloc(sizeof(struct nodoNoReconocidos));
-         nuevoNodo->noReconocido=strdup(informacionNueva);
-         nuevoNodo->linea=cantidadDeLineas;
-         nuevoNodo->sig=NULL;
-         if(raizNoReconocidos==NULL){
-               raizNoReconocidos=nuevoNodo;
-         }else{
-               fondoNoReconocidos->sig=nuevoNodo;
-         }
-         fondoNoReconocidos=nuevoNodo;
     }
 }
 
@@ -828,8 +815,8 @@ long conversorADecimal(char* informacionNueva,int base){
    return repredecimal;
 }
 
-int representacionDigito(char digito,int base)
-{
+int representacionDigito(char digito,int base){
+
     if(base==16)
     {   
         switch(digito)
@@ -874,19 +861,9 @@ int representacionDigito(char digito,int base)
 } 
 
 
-void cuentaSaltos(char* palabra){    
-    int largo=strlen(palabra);
-    char copia[largo+1];
-    strcpy(copia,palabra);
-    int i;
-    for(i=0;i<=largo;i++){
-        if(copia[i]=='\n'){
-            cantidadDeLineas++;
-        }
-    }
-}
 
-#line 890 "lex.yy.c"
+
+#line 867 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -1037,11 +1014,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 423 "tp3.l"
+#line 400 "tp3.l"
 
 
-
-#line 1045 "lex.yy.c"
+#line 1021 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -1126,88 +1102,85 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 426 "tp3.l"
-{agregarNodo(1,yytext," ");cuentaSaltos(yytext);}
+#line 402 "tp3.l"
+{agregarNodo(1,yytext," ");}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 428 "tp3.l"
-{agregarNodo(3,yytext,"");cuentaSaltos(yytext);}
+#line 404 "tp3.l"
+{agregarNodo(3,yytext,"");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 429 "tp3.l"
-{agregarNodo(4,yytext,"");cuentaSaltos(yytext);} 
+#line 405 "tp3.l"
+{agregarNodo(4,yytext,"");} 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 430 "tp3.l"
-{agregarNodo(5,yytext,"");cuentaSaltos(yytext);} 
+#line 406 "tp3.l"
+{agregarNodo(5,yytext,"");} 
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 431 "tp3.l"
-{agregarNodo(7,yytext," ");cuentaSaltos(yytext);} 
+#line 407 "tp3.l"
+{agregarNodo(7,yytext," ");} 
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 432 "tp3.l"
-{agregarNodo(8,yytext," ");cuentaSaltos(yytext);} 
+#line 408 "tp3.l"
+{agregarNodo(8,yytext," ");} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 433 "tp3.l"
-{agregarNodo(2,yytext,"de dato");cuentaSaltos(yytext);}
+#line 409 "tp3.l"
+{agregarNodo(2,yytext,"de dato");}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 434 "tp3.l"
-{agregarNodo(2,yytext," de control");cuentaSaltos(yytext);}
+#line 410 "tp3.l"
+{agregarNodo(2,yytext," de control");}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 435 "tp3.l"
-{agregarNodo(2,yytext,"otros");cuentaSaltos(yytext);}  
+#line 411 "tp3.l"
+{agregarNodo(2,yytext,"otros");}  
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 436 "tp3.l"
-{agregarNodo(0,yytext," ");cuentaSaltos(yytext);} 
+#line 412 "tp3.l"
+{agregarNodo(0,yytext," ");} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 438 "tp3.l"
-{agregarNodo(6,yytext,"");cuentaSaltos(yytext);} 
+#line 413 "tp3.l"
+{agregarNodo(6,yytext,"");} 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 439 "tp3.l"
-{agregarNodo(6,yytext,"");cuentaSaltos(yytext);}
+#line 414 "tp3.l"
+{agregarNodo(6,yytext,"");}
 	YY_BREAK
 case 13:
-*yy_cp = yy_hold_char; /* undo effects of setting up yytext */
-yy_c_buf_p = yy_cp -= 1;
-YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 441 "tp3.l"
-{agregarNodo(9,yytext,"simple");cuentaSaltos(yytext);} 
+#line 416 "tp3.l"
+{agregarNodo(9,yytext,"simple");} 
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 442 "tp3.l"
-{agregarNodo(9,yytext,"multiple");cuentaSaltos(yytext);}
+#line 417 "tp3.l"
+{agregarNodo(9,yytext,"multiple");}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 443 "tp3.l"
-{agregarNodo(10,yytext,"");cuentaSaltos(yytext);}
+#line 418 "tp3.l"
+{;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 444 "tp3.l"
+#line 419 "tp3.l"
 ECHO;
 	YY_BREAK
-#line 1211 "lex.yy.c"
+#line 1184 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2093,7 +2066,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 444 "tp3.l"
+#line 419 "tp3.l"
 
 int main(void) { 
     
@@ -2162,7 +2135,6 @@ int main(void) {
        printf("Se encuentra el decimal %d. \n",recorridoD->decimal);
        total=total+recorridoD->decimal;
        recorridoD=recorridoD->sig;
-
     }
     if(raizConstanteDecimal!=NULL){
         printf("Sumando un total de %d. \n",total);
@@ -2185,7 +2157,7 @@ int main(void) {
     recorridoC=raizConstanteCaracter;
     int enumeracion=1;
     while(recorridoC!=NULL){
-      printf("%i aaaaaa",enumeracion);
+      printf("%i)",enumeracion);
       printf(" El caracter %s.\n",recorridoC->caracter);
       enumeracion++;
       recorridoC=recorridoC->sig;    
@@ -2208,7 +2180,12 @@ int main(void) {
     recorridoComen=raizComentario;
     while(recorridoComen!=NULL){
       if(strcmp("simple",recorridoComen->tipo)==0){
-           printf("El comentario %s",recorridoComen->comentario+2);
+           int largo;
+           largo=strlen(recorridoComen->comentario);
+           char copia[largo];
+           strcpy(copia,recorridoComen->comentario);
+           copia[largo-1]='\0';
+           printf("El comentario %s",copia);
            printf(" es de tipo %s \n",recorridoComen->tipo);
       }else{
            int largo,i,recorrido=0;
@@ -2251,7 +2228,8 @@ int main(void) {
     }
     */
 
-    
+    fclose(yyout);
+    fclose(yyin);
     system("pause");
     return 0;
 } 

@@ -132,7 +132,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
     if(categoria==0){  //IDENTIFICADORES
              NodoIdentificadores *nuevoNodo,*recorrido;
             char informacionNMayuscula[strlen(informacionNueva)];
-            int limite=sizeof(informacionNMayuscula);
+            int limite=strlen(informacionNMayuscula)- 1;
             strcpy(informacionNMayuscula,informacionNueva);
             char caracter=informacionNMayuscula[0];
             int a=0;
@@ -577,7 +577,8 @@ int main(void) {
     }
     */
 
-    
+    fclose(yyout);
+    fclose(yyin);
     system("pause");
     return 0;
 } 
